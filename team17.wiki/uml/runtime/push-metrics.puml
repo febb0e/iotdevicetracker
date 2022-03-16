@@ -1,0 +1,24 @@
+@startuml push_metrics
+hide footbox
+
+collections iot_device as "IoT Device(s)"
+participant mqtt_broker as "MQTT Broker"
+participant telegraf as "Telegraf"
+database influx_db as "InfluxDB"
+
+telegraf -> mqtt_broker : Connect (MQTT)
+telegraf <-- mqtt_broker : Connected
+telegraf -> mqtt_broker : Subscribe (MQTT)
+telegraf <-- mqtt_broker : Subscribed
+hnote over telegraf : ready
+iot_device -> mqtt_broker : Connect (MQTT)
+iot_device <-- mqtt_broker : Connected
+hnote over iot_device : ready
+iot_device -> mqtt_broker : Publish metrics (MQTT)
+rnote over iot_device : Continue to publish metrics\nevery x seconds
+mqtt_broker -> telegraf : Publish metrics (MQTT)
+telegraf -> telegraf : Store metrics in memory
+rnote over telegraf : Flush every 10 seconds
+telegraf -> influx_db : Persist metrics
+telegraf <-- influx_db: Metrics persisted
+@enduml

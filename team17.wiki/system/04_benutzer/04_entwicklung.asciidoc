@@ -1,0 +1,4 @@
+[[sec:entwicklung]]
+= Entwicklung
+
+Informationen zur Entwicklung können sie der README.md im Hauptverzeichnis entnehmen.

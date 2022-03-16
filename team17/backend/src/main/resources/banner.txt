@@ -1,0 +1,4 @@
+${AnsiColor.RED}${AnsiStyle.BOLD}${spring.application.name}
+${AnsiStyle.NORMAL}${AnsiColor.RED}${AnsiStyle.UNDERLINE}${AnsiStyle.ITALIC}${spring.application.version}${AnsiStyle.NORMAL}
+${AnsiStyle.NORMAL}${AnsiColor.GREEN}${AnsiStyle.BOLD}Spring
+${AnsiStyle.NORMAL}${AnsiColor.GREEN}${AnsiStyle.UNDERLINE}${AnsiStyle.ITALIC}${spring-boot.version}${AnsiStyle.NORMAL}${AnsiColor.BRIGHT_WHITE}

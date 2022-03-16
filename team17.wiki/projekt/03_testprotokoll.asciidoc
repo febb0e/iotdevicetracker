@@ -1,0 +1,283 @@
+[[sec:testprotokoll]]
+= Testprotokoll
+
+== Automatisierte End-to-End Tests
+Für einige Funktionen existieren bereits automatisierte E2E-Tests (siehe frontend/README.md)
+Wir planen die automatisierten End-to-End Tests in Zukunft noch zu erweitern. Da diese sehr zeitaufwendig sind, haben wir den IoT Device Tracker
+zunächst ausgiebig manuell getestet. Das Protokoll für die manuellen Tests finden Sie auf den folgenden Seiten.
+
+[[TF01-1,TF01-1]]
+== [[TF01-1,TF01-1]]/TF01-1/ Anmeldung eines registrierten Users
+[horizontal]
+Anwendungsfall:: <<LF01-1>>
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  https:https://www.iotdevicetracker.software/auth/login aufrufen
+2.  Username eingeben
+3.  Passwort korrekt eingeben
+4.  Anmelden klicken
+
+erwartetes Ergebnis:: Der User ist erfolgreich angemeldet und befindet sich auf dem Dashboard
+Ergebnis:: Der User befindet sich auf dem Dashboard und kann eine beliebige Aktion ausführen
+
+[[TF01-2,TF01-2]]
+== [[TF01-2,TF01-2]]/TF01-2/ Abmeldung eines Users
+[horizontal]
+Anwendungsfall:: <<LF01-2>>
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Der User muss eingeloggt sein
+2.  Auf den Benutzernamen oben rechts klicken
+3.  "Logout" auswählen
+
+erwartetes Ergebnis:: Der Benutzer ist von der Webanwendung abgemeldet
+Ergebnis:: In PostgreSQL ist die Spring Session beendet und der Cookie-Eintrag des Users ist aus der Datenbank entfernt.
+
+[[TF02,TF02]]
+== [[TF02,TF02]]/TF02/ Registrierung eines Users
+[horizontal]
+Anwendungsfall:: <<LF02>>
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  https://www.iotdevicetracker.software/auth/register aufrufen
+2.  Username eingeben
+3.  Email Adresse in validem Format eingeben
+4.  Passwort >= 8 Zeichen eingeben
+5.  Eingabe mit identischem Passwort wiederholen
+6.  Button Register klicken
+7.  Verifikations-Token aus Email eingeben
+
+erwartetes Ergebnis:: Ein neuer Nutzer wird erfolgreich angelegt und befindet sich beim Loginfenster
+Ergebnis:: Der User ist in der Datenbank hinterlegt und kann sich mit den Zugangsdaten über https://www.iotdevicetracker.software/auth/login anmelden
+
+[[TF04,TF04]]
+== [[TF04,TF04]]/TF04/ User anzeigen lassen als System-Admin
+[horizontal]
+Anwendungsfall:: <<LF04>>
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Der User muss System-Admin Rechte haben
+2.  Der User muss eingeloggt sein
+3.  "Users" im Menu auswählen
+
+erwartetes Ergebnis:: Alle registrierten User der Webanwendung werden aufgelistet
+Ergebnis:: Die angezeigten User stimmen mit den Einträgen der Datenbank USER überein.
+
+[[TF05,TF05]]
+== [[TF05,TF05]]/TF05/ User bearbeiten als System-Admin
+[horizontal]
+Anwendungsfall:: <<LF05>>
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Der User muss System-Admin Rechte haben
+2.  Der User muss eingeloggt sein
+3.  "Users" im Menu auswählen
+4.  Das Stift-Icon zum Bearbeiten des Users auswählen
+5.  Einen der User-Werte ändern
+
+erwartetes Ergebnis:: Die Daten des Users haben sich im UI geändert.
+Ergebnis:: Die Daten des Users haben sich im UI und in der PostgreSQL Datenbank USER geändert.
+
+[[TF06,TF06]]
+== [[TF06,TF06]]/TF06/ User löschen als System-Admin
+[horizontal]
+Anwendungsfall:: <<LF06>>
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Der User muss System-Admin Rechte haben
+2.  Der User muss eingeloggt sein
+3.  "Users" im Menu auswählen
+4.  Das Eimer-Icon zum Löschen des Users auswählen
+5.  Einen der User-Werte ändern
+
+erwartetes Ergebnis:: Die Daten des Users haben sich im UI geändert.
+Ergebnis:: Die Daten des Users haben sich im UI und in der PostgreSQL Datenbank USER geändert.
+
+[[TF10,TF10]]
+== [[TF10,TF10]]/TF10/ Devices hinzufügen
+[horizontal]
+Anwendungsfall:: <<LF10>>
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Der User muss sich innerhalb einer Device Group befinden
+2.  Auf "Create Device" klicken
+3.  Die MAC-Adresse des Geräts als Identifier eingeben
+4.  Einen beliebigen Namen für das Gerät auswählen
+5.  Auf "Create" klicken
+6.  Den Token des Geräts aufbewahren
+7.  Daemon auf dem Device installieren und starten
+
+erwartetes Ergebnis:: Das neue Device wird unter Devices gelistet und kann nach der Installation und dem Start des Daemon Metriken an die Anwendung schicken.
+Ergebnis:: Das neue Device wird in der PostgreSQL Datenbank DEVICE gelistet und besitzt die korrekten Einträge. Das IoT Gerät kann nach Installation und Start der Daemon Metriken senden und diese sind in der InfluxDB als auch Frontend korrekt sichtbar.
+
+[[TF11,TF11]]
+== [[TF11,TF11]]/TF11/ Devices anzeigen
+[horizontal]
+Anwendungsfall:: <<LF11>>
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Der User muss sich innerhalb einer Device Group befinden
+2.  Der User muss ein korrekt angelegtes Device auswählen
+3.  Metric des Device auswählen
+4.  Passenden Timeframe wählen
+
+erwartetes Ergebnis:: Das Device wird mit korrektem Namen, korrekter MAC und den Metriken angezeigt.
+Ergebnis:: Die in der Webanwendung gezeigten Parameter stimmen mit denen der PostgreSQL Datenbank Device überein. Die Metriken in der Webanwendung stimmen mit den in InfluxDB persistierten Daten überein.
+
+[[TF12,TF12]]
+== [[TF12,TF12]]/TF12/ Devices bearbeiten
+[horizontal]
+Anwendungsfall:: <<LF12>>
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Der User muss sich innerhalb einer Device Group befinden
+2.  Das zu bearbeitende Device auswählen
+3.  Auf "Edit" klicken
+4.  Namen des Devices bearbeiten
+5.  Mit Klick auf "Edit" bestätigen
+
+erwartetes Ergebnis:: Das Device wird mit geändertem Namen, korrekter MAC und den Metriken angezeigt.
+Ergebnis:: Die in der Webanwendung geänderten Parameter sind in der PostgreSQL Datenbank DEVICE ebenfalls geändert worden.
+
+[[TF13,TF13]]
+== [[TF13,TF13]]/TF13/ Devices entfernen
+[horizontal]
+Anwendungsfall:: <<LF13>>
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Der User muss sich innerhalb einer Device Group befinden
+2.  Das zu löschende Device auswählen
+3.  Auf "Delete" klicken
+4.  Das Pop-up durch klicken auf "Delete" bestätigen
+
+erwartetes Ergebnis:: Das Device ist aus der Device-Group entfernt worden.
+Ergebnis:: Das Device ist in der Webanwendung entfernt worden und befindet sich nicht mehr in der PostgreSQL Datenbank.
+
+[[TF20,TF20]]
+== [[TF20,TF20]]/TF20/ Device Group Hinzufügen
+[horizontal]
+Anwendungsfall:: <<LF20>>
+Rolle:: User
+Voraussetzung:: Account besitzen und angemeldet sein.
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Dashboard aufrufen
+2.  Auf 'Create Device Group' klicken
+3.  Device Group in Eingabefeld 'Name' benennen
+4.  Auf den Button 'Create' drücken
+
+erwartetes Ergebnis:: Eine Device Group wird erfolgreich angelegt und wird im Dashboard angezeigt
+Ergebnis:: Die Device Group wurde in der Datenbank angelegt und kann geöffnet werden über ein Click auf die Schaltfläche, die diese repräsentiert.
+
+[[TF21,TF21]]
+== [[TF21,TF21]]/TF21/ Device Group anzeigen
+[horizontal]
+Anwendungsfall:: <<LF21>>
+Rolle:: User
+Voraussetzung:: Device Group existiert bereits
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Dashboard aufrufen
+2.  Schaltfläche identifizieren die, die zuvor erstellte Device Group repräsentiert
+3.  Auf die Schaltfläche drücken
+
+erwartetes Ergebnis:: Die Device Group wird übersichtlich dargestellt mit den zugehörigen Usern sowie Devices.
+Ergebnis:: Der User befindet sich in der Übersicht zur Device Group und kann weitere Änderungen von dort vornehmen.
+
+[[TF22,TF22]]
+== [[TF22,TF22]]/TF22/ Device Group bearbeiten
+[horizontal]
+Anwendungsfall:: <<LF22>>
+Rolle:: User
+Voraussetzung:: Device Group existiert bereits
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Device Group auswählen
+2.  Button 'Edit' klicken
+3.  Im Eingabefeld 'Name' Namensänderung durchführen
+4.  Durch Klick auf 'Edit' bestätigen
+
+erwartetes Ergebnis:: Die Namensänderung wurde erfolgreich vollzogen.
+Ergebnis:: Der Name wurde in der Datenbank geändert.
+
+[[TF23,TF23]]
+== [[TF23,TF23]]/TF23/ Device Group entfernen
+[horizontal]
+Anwendungsfall:: <<LF23>>
+Rolle:: User
+Voraussetzung:: Device Group existiert bereits
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Device Group auswählen
+2.  Button 'Delete' klicken
+3.  Im Dialog auf den Button 'Delete' drücken
+
+erwartetes Ergebnis:: Device Group wurde gelöscht.
+Ergebnis:: Device Group wurde aus der Datenbank entfernt, zugehörige Objekte werden auch gelöscht.
+
+[[TF30,TF30]]
+== [[TF30,TF30]]/TF30/ Nutzer zu Device Group hinzufügen
+[horizontal]
+Anwendungsfall:: <<LF30>>
+Rolle:: User
+Voraussetzung:: Device Group existiert bereits
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Device Group auswählen
+2.  Unter Users auf den Button 'Add Users' klicken
+3.  Im Eingabefeld 'Username' Benutzernamen festlegen
+4.  Im Dropdown 'Role' die Rolle 'OBSERVER' oder 'ADMIN' auswählen
+5.  Auf Button 'Add User' klicken
+
+erwartetes Ergebnis:: User wird hinzugefügt.
+Ergebnis:: In der Datenbank wird ein Eintrag angelegt der die Zugriffsrechte für den erstellten Nutzer beschreibt.
+
+[[TF31,TF31]]
+== [[TF31,TF31]]/TF31/ Nutzer der Device Group anzeigen
+[horizontal]
+Anwendungsfall:: <<LF31>>
+Rolle:: Admin
+Voraussetzung:: Device Group existiert bereits
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Device Group auswählen
+2.  'Users' zeigt alle User an, mindestens den Ersteller der Gruppe selbst
+
+erwartetes Ergebnis:: User der Device-Group sind sichtbar.
+Ergebnis:: User werden als Liste angezeigt
+
+[[TF32,TF32]]
+== [[TF32,TF32]]/TF32/ Nutzer der Device Group bearbeiten
+[horizontal]
+Anwendungsfall:: <<LF32>>
+Rolle:: Admin
+Voraussetzung:: Device Group existiert bereits und ein anderer User wurde hinzugefügt zur Device Group
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Device Group auswählen
+2.  Unter Users einen User aus der Liste auswählen und 'Edit' Icon klicken
+3.  Role im Dropdown verändern
+4.  Auf Button 'Edit' klicken
+
+erwartetes Ergebnis:: Role wurde angepasst.
+Ergebnis:: Angepasster User hat eine neue Rolle in der Device Group
+
+[[TF33,TF33]]
+== [[TF33,TF33]]/TF33/ Nutzer in Device Group entfernen
+[horizontal]
+Anwendungsfall:: <<LF33>>
+Rolle:: Admin
+Voraussetzung:: Device Group existiert bereits und ein anderer User wurde hinzugefügt zur Device Group
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Device Group auswählen
+2.  Unter Users einen User aus der Liste auswählen und 'Delete' Icon klicken
+3.  Bestätigen durch Drücken auf 'Revoke access' Button.
+
+erwartetes Ergebnis:: User befindet sich nicht mehr in der Gruppe und hat keinen Zugriff.
+Ergebnis:: Angepasstem User wurden die Zugriffsrechte genommen.
+
+[[TF40,TF40]]
+== [[TF40,TF40]]/TF40/ Metriken senden
+[horizontal]
+Anwendungsfall:: <<LF40>>
+Rolle:: -
+Voraussetzung:: Der Besitzt eines IoT Gerätes
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Auf dem Gerät 'MQTT_URL="https://mosquitto.iotdevicetracker.software" MQTT_PASSWORD="device-token" ./daemon' ausführen
+2.  Daemon auf dem IoT Gerät ausführen
+
+erwartetes Ergebnis:: Daemon versendet Metriken CPU-Last als Metrik
+Ergebnis:: Daemon versendet CPU-Last als Metrik
+
+[[TF41,TF41]]
+== [[TF41,TF41]]/TF41/ Aktuelle Metriken einsehen
+[horizontal]
+Anwendungsfall:: <<LF41>>
+Beschreibung:: Folgende Schritte sind auszuführen +
+1.  Daemon starten
+
+erwartetes Ergebnis:: Aktuelle Metrik Cpu-Last wird über die Konsole angezeigt.
+Ergebnis:: Daemon versendet über Device Metrik Cpu-Last an Mosquitto.

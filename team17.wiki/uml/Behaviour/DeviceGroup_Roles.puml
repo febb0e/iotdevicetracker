@@ -1,0 +1,15 @@
+@startuml DeviceGroup_Roles
+left to right direction
+(*) -->[Device Group wird erstellt] ===B1===
+===B1=== -->[hat erstellt] "Admin"
+===B1=== -> "keine Rolle"
+"keine Rolle" -->[bekommt Zugriff] "Beobachter"
+"Beobachter" -->[Rechte erhoeht] "Admin"
+"Admin" ->[Rechte reduziert] "Beobachter"
+"Admin" -->[Rechte entzogen] "keine Rolle"
+"Admin" -->[Admin >=1] "Admin"
+"Admin" --> ===B2===
+"keine Rolle" --> ===B2===
+"Beobachter" -->[Rechte entzogen] "keine Rolle"
+===B2=== -->[Gruppe geloescht] (*)
+@enduml

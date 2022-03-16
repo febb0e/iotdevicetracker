@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: "IoT-DeviceTracker-Backend"
+    version: 0.0.1
+
+  flyway:
+    enabled: false
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./testdb
+    username: sa
+    password: sa
+
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+
+  mail:
+    host: ${SPRING_MAIL_HOST:}
+    port: ${SPRING_MAIL_PORT:}
+    username: ${SPRING_MAIL_USERNAME:}
+    password: ${SPRING_MAIL_PASSWORD:}
+
+  autoconfigure:
+    exclude:
+      # Disable unused influx packages
+      - com.influxdb.spring.health.InfluxDB2HealthIndicatorAutoConfiguration
+      - com.influxdb.spring.influx.InfluxDB2AutoConfigurationReactive
+
+
+influx:
+  url: ${INFLUX_URL:http://127.0.0.1:8086}
+  username: ${INFLUX_USERNAME:iotdtdev}
+  password: ${INFLUX_PASSWORD:iotdtdev}
+  org: ${INFLUX_ORG:thkoeln}
+  bucket: ${INFLUX_BUCKET:iotdt}
+
+logging.level.root: ${LOGGING_LEVEL_ROOT:info}
+
+frontend:
+  url: ${FRONTEND_URL:http://localhost:3000}

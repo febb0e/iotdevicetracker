@@ -1,0 +1,134 @@
+[[sec:verantwortungsbereich]]
+= Verantwortungsbereiche
+
+== Projektplanungsphase
+
+
+. Übersicht:
+* ftsirogi
+* pseinche
+* psthamer
+
+. Akteure:
+* ftsirogi
+* pseinche
+* psthamer
+
+. Anwendungsfälle:
+* ftsirogi
+* pseinche
+* psthamer
+
+. Daten:
+* ftsirogi
+* pseinche
+* psthamer
+
+. Qualitätsanforderung:
+* ftsirogi
+* pseinche
+* psthamer
+
+. Randbedingungen:
+* ftsirogi
+* pseinche
+* psthamer
+
+. Datenschema:
+* psthamer
+
+. Verhalten:
+* ftsirogi
+
+. SchnittstellenFrontend:
+* psthamer
+. Zeitplanung
+* pseinche
+
+. Verantwortungsbereiche:
+* pseinche
+
+. Korrektur MS1.0:
+* pseinche
+
+
+== Prototypenintegrations- und Testphase
+
+
+. Prototyp:
+* ftsirogi
+* pseinche
+* psthamer
+
+. Kontext:
+* pseinche
+
+. Komponenten:
+* ftsirogi
+
+. Laufzeitschicht:
+* psthamer
+
+. Verteilung:
+* ftsirogi
+
+. Präsentation:
+* ftsirogi
+* pseinche
+* psthamer
+
+. Korrektur MS2.0:
+* ftsirogi
+* pseinche
+* psthamer
+
+== Hauptintegrations- und Testphase
+
+
+. Datenbanken:
+* ftsirogi
+
+. Backend:
+* pseinche
+
+. Frontend:
+* psthamer
+
+. MQTT Broker:
+* ftsirogi
+
+. Daemon:
+* ftsirogi
+
+. Installation:
+* pseinche
+
+. Administration:
+* psthamer
+
+. Benutzung:
+* ftsirogi
+
+. Entwicklung:
+* pseinche
+
+. Testprotokoll:
+* psthamer
+
+. Korrektur MS3.0:
+* ftsirogi
+* pseinche
+* psthamer
+
+== Projekt Abgabe
+
+
+. Polishing:
+* ftsirogi
+* pseinche
+* psthamer
+
+. Korrektur MS4.0:
+* ftsirogi
+* pseinche
+* psthamer

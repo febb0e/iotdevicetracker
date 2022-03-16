@@ -1,0 +1,8 @@
+@startuml TOTP_Lifecycle
+left to right direction
+(*) -->[Account registiert] "Kennwort Authentifizierung"
+"Kennwort Authentifizierung" -->[TOTP einrichten] "Zwei Faktor Authentifizierung mit TOTP"
+"Zwei Faktor Authentifizierung mit TOTP" -->[TOTP dekativeren] "Kennwort Authentifizierung"
+"Kennwort Authentifizierung" -->[Account terminiert] (*)
+"Zwei Faktor Authentifizierung mit TOTP" -->[Account terminiert] (*)
+@enduml

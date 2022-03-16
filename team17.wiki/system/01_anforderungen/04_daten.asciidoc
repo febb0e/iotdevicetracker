@@ -1,0 +1,31 @@
+[[sec:daten]]
+= Daten
+
+[[LD01,LD01]]
+== [[LD01,LD01]]/LD01/ User
+Ein User hat eine ID, einen Nutzernamen, ein Passwort, sowie eine E-Mail Adresse um sich anzumelden. Ein User kann entweder verifziert sein oder nicht. User sind mehreren IoT Device Gruppen zugeordnet.
+User können einen TOTP Authenticator und mehrere Recovery Codes haben.
+
+[[LD02,LD02]]
+== [[LD02,LD02]]/LD03/ TOTP Authenticator
+User können einen oder keinen TOTP Authenticator haben.
+Enthält ID, User ID, Secret und Verified.
+Ist ein TOTP Authenticator konfiguriert, werden außerdem mehrere Recovery Codes gespeichert.
+
+[[LD03,LD03]]
+== [[LD03,LD03]]/LD04/ Device
+Ein Device hat ID, MAC-Adresse, Namen und Token.
+
+[[LD04,LD04]]
+== [[LD04,LD04]]/LD05/ Device Group
+Besitzt eine ID und einen Namen. Eine Device Group hat mehrere Devices und Device Group User.
+Weiterhin besitzt sie noch ein Erstelldatum als Konstante und ein Datum welches festhält wann die Device Group zum letzten Mal bearbeitet wurde.
+
+[[LD05,LD05]]
+== [[LD05,LD05]]/LD06/ Device Group User
+Ordnet User einer Device Group zu. Enthält User ID, Device Group ID und Role.
+
+[[LD06,LD06]]
+== [[LD06,LD06]]/LD09/ Metric
+Enthält mehrere Metriken zu einem eindeutig identifzierten Zeitpunkt (ms Präzision), sowie die dazugehörige Device ID.
+

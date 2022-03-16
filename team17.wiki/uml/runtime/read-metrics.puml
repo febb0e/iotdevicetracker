@@ -1,0 +1,15 @@
+@startuml read_metrics
+actor observer as "Observer"
+participant frontend as "Frontend"
+participant backend as "Backend"
+database influx_db as "InfluxDB"
+
+observer -> frontend : Show metrics
+frontend -> backend : GET /metrics
+backend -> backend : Generate flux query
+backend -> influx_db : Request metrics
+backend <-- influx_db : Metrics (Line protocol)
+backend -> backend : Format metrics to JSON
+frontend <-- backend : Metrics (JSON)
+observer <-- frontend : Metrics (visual)
+@enduml

@@ -1,0 +1,18 @@
+[[sec:randbedinungen]]
+= Randbedingungen
+
+[[LC01,LC01]]
+== [[LC01,LC01]]/LC01/ Beliebiges Deployment
+Soll sowohl in Public, Private, als auch Hybrid Cloud lauffähig sein.
+
+[[LC02,LC02]]
+== [[LC02,LC02]]/LC02/ Sprache
+Die Webseite soll auf Englisch lokalisiert sein, jedoch mit der Möglichkeit weitere Sprachen hinzuzufügen.
+
+[[LC03,LC03]]
+== [[LC03,LC03]]/LC03/ Platformunabhängiges Design
+Es sollen Metriken von IoT Devices mit einer Vielzahl von Betriebssystemen und Architekturen erfasst werden können.
+
+[[LC04,LC04]]
+== [[LC04,LC04]]/LC04/ Responsive Design
+Die Webseite soll sowohl auf mobilen, als auch auf Desktop-Endgeräten korrekt dargestellt werden. Es sollen sowohl der Landscape, als auch der Portrait Modus unterstützt werden.

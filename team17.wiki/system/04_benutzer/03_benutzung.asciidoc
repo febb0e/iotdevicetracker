@@ -1,0 +1,180 @@
+[[sec:benutzung]]
+= Benutzung
+
+== Account
+
+=== Registrierung
+
+Man kann einen Account anlegen.
+
+image::user/ui/Form_Registration.png[]
+
+Dieser muss jedoch nach der Registrierung verifiziert werden.
+
+image::user/ui/Verification.png[]
+
+Gibt man diesen ein wird man zum Dashboard weitergeleitet.
+
+=== Login
+
+Einloggen kann man sich nach einer Registrierung mit der Eingabe des Benutzernamen oder der E-Mail.
+
+image::user/ui/Form_Login.png[]
+
+Bei einem erfolgreichen Login wird man zum Dashboard weitergeleitet.
+
+Ein Logout erfolgt über das drücken des eigenen Benutzernamen und dann auf `Logout`.
+
+image::user/ui/Self.png[]
+
+=== Einstellungen
+
+Die Einstellungen erreicht man durch das drücken des eigenen Benutzernamen und dann auf `Settings`.
+
+image::user/ui/Self.png[]
+
+Unter den Einstellungen können nun Account-Details verändert oder der Account gelöscht werden.
+
+image::user/ui/Self_Settings.png[]
+
+=== TOTP
+
+Zum Einrichten von TOTP muss man in den Account Einstellungen zunächst gelangen und von dort aus `Start 2FA Setup` drücken.
+
+Als ersten Schritt müssen wir unser Passwort eingeben.
+
+image::user/ui/Totp_1.png[]
+
+Danach können wir mithilfe einer Totp-App den QR Code Scannen oder den manuellen Schlüssel nutzen.
+Die jeweilige Totp-Authenticator müsste nach dem Setup einen 6-Stelligen Code ausgeben mit dem das Setup verifiziert werden kann.
+
+image::user/ui/Totp_2.png[]
+
+Die Recovery Codes sollte man an einem sicheren Platz aufbewahren so dass diese nicht verloren gehen können.
+Diese Codes können dann verwendet werden wenn man Zugang zu seinem Totp-Authenticator verloren hat.
+
+image::user/ui/Totp_3.png[]
+
+Nun ist Totp erfolgreich eingerichtet.
+Um Totp wieder zu deaktivieren kann man die Schaltfläche `Disable 2FA` betätigen.
+
+image::user/ui/Totp_4.png[]
+
+Dafür müssen wir nochmal das Passwort zum bestätigen eingeben.
+
+image::user/ui/Totp_5.png[]
+
+Beim Login sieht die Totp-Abfrage dann so aus:
+
+image::user/ui/Form_Login_Totp.png[]
+
+== Gruppen
+
+Gruppen entsprechen einer Sammlung an Geräten und werden genutzt um den Zugriff auf diese zu regeln.
+
+=== Anlegen
+
+Durch drücken der Schaltfläche `Create Device Group ...` erscheint ein Popup zur Erstellung einer Gruppe.
+
+image::user/ui/Group_Create.png[]
+
+Hier muss nun ein Name für die Gruppe vergeben werden.
+
+image::user/ui/Group_Create_Form.png[]
+
+Schlussendlich wird im Dashboard die neue Gruppe angezeigt.
+
+image::user/ui/Group_List.png[]
+
+Durch drücken auf die Gruppe gelangt man nun auf das Gruppen-Dashboard. 
+
+image::user/ui/Group_Edit.png[]
+
+=== Bearbeiten
+
+Vom Gruppen-Dashboard können wir durch drücken auf die `Edit` Schaltfläche nun die Gruppe bearbeiten.
+
+image::user/ui/Group_Edit.png[]
+
+Beim bearbeiten kann man nur den Gruppennamen verändern.
+
+image::user/ui/Group_Edit_Popup.png[]
+
+=== Löschen
+
+Um die Gruppe zu löschen muss man auf die `Delete` Schaltfläche drücken und mit einem weiteren druck auf `Delete` bestätigen.
+
+image::user/ui/Group_Edit.png[]
+
+=== User Hinzufügen
+
+Durch drücken auf die Schaltfläche `Add User` kann ein Benutzer hinzugefügt werden.
+
+image::user/ui/Group_User_Change.png[]
+
+Dabei gibt man den Namen des Nutzers ein und vergibt ihm eine Rolle.
+
+image::user/ui/Group_User_Add.png[]
+
+=== User Bearbeiten/Entfernen
+
+Der Benutzer kann nun auch bearbeitet/entfernt werden wenn man auf die Schaltfläche mit dem Stift/Mülleimer drückt.
+
+image::user/ui/Group_User_Change.png[]
+
+Es kann dabei die Rolle des Nutzers verändert werden oder diesem die Zugriffsrechte auf die Gruppe entzogen werden. 
+
+== Geräte
+
+
+=== Anlegen
+
+Ein Gerät kann angelegt werden wenn man im Gruppen-Dashboard auf die Schaltfläche `Create Device ...` drückt.
+
+image::user/ui/Device_Create.png[]
+
+Dabei erscheint dann ein Popup bei dem man einen Identifier eingeben muss (z.B. MAC-Adresse) und noch einen Namen vergeben kann.
+
+image::user/ui/Device_Create_Form_Full.png[]
+
+Danach wird der Token zurückgegeben den man sichern sollte für den Daemon. Dieser kann nämlich später nicht mehr abgerufen werden.
+
+image::user/ui/Device_Create_Form_Result.png[]
+
+Schließlich kann man sich das Device-Dashboard anzeigen lassen.
+
+image::user/ui/Device.png[]
+
+=== Bearbeiten
+
+Vom Device-Dashboard kann man auf die `Edit` Schaltfläche drücken und dort den Namen vom Device verändern.
+
+image::user/ui/Device_Edit.png[]
+
+=== Löschen
+
+Vom Device-Dashboard kann man auf die `Delete` Schaltfläche drücken und dort erneut auf `Delete` den Löschvorgang bestätigen.
+
+=== Metriken
+
+Es können paar Abfrageparameter eingestellt werden.
+
+==== Parameter-Timeframe
+
+Man kann eine der Optionen aus dem Dropdown auswählen um zu bestimmen wie weit die Daten die man abfragen möchte zurückliegen.
+
+image::user/ui/Device_Timeframe.png[]
+
+==== Parameter-Refresh
+
+Man kann eine der Optionen aus dem Dropdown auswählen um zu bestimmen wie oft die Daten aktualisiert werden sollen.
+
+image::user/ui/Device_Refresh.png[]
+
+==== Parameter-Fields
+
+Man kann eine oder mehrere der Optionen aus dem Dropdown auswählen, diese Daten werden dann im Graphen dargestellt.
+
+image::user/ui/Device_Fields.png[]
+
+image::user/ui/Device.png[]

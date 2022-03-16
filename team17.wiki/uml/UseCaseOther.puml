@@ -1,0 +1,12 @@
+@startuml
+
+!include UseCaseVariables.puml
+
+actor :$iot: as iot #Seagreen
+  
+package Metriken as metrics #Seagreen {
+  usecase "$LF40" as LF40
+}
+
+iot - LF40
+@enduml

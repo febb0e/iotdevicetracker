@@ -1,0 +1,50 @@
+@startuml build_artifacts
+
+[Backend] as spring
+[Frontend] as nuxtjs
+[Daemon] as iot
+[MQTT Broker] as mqtt_broker
+[Metrics Collector] as metrics_collector
+
+artifact frontend_docker [
+    <<Docker Hub Image>>
+    iotdevicetracker/frontend
+    ----
+    Dockerfile: frontend/Dockerfile
+    Source: frontend/**
+]
+
+artifact backend_docker [
+    <<Docker Hub Image>>
+    iotdevicetracker/backend
+    ----
+    Source: backend/**
+]
+
+artifact daemon_binary [
+    Daemon binary
+    ----
+    Source: daemon/**
+]
+
+artifact telegraf [
+    <<Docker Hub Image>>
+    telegraf
+    ---
+    Config: telegraf.conf
+]
+
+artifact mosquitto [
+    <<Docker Hub Image>>
+    eclipse-mosquitto
+    ---
+    Config: mosquitto.conf
+]
+
+frontend_docker ..> nuxtjs : <<manifests>>
+backend_docker ..> spring : <<manifests>>
+daemon_binary ..> iot : <<manifests>>
+telegraf ..> metrics_collector : <<manifests>>
+mosquitto ..> mqtt_broker : <<manifests>>
+
+@enduml

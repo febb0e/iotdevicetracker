@@ -1,0 +1,5 @@
+@startuml Account_Lifecycle
+(*) ->[Registrierung] "Unbestätigter Account"
+"Unbestätigter Account" ->[E-Mail Bestätigungslink verwendet] "Bestätigter Account"
+"Bestätigter Account" ->[Terminierung des Accounts] (*)
+@enduml

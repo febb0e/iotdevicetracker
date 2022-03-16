@@ -1,0 +1,38 @@
+@startuml
+
+!include UseCaseVariables.puml
+
+actor :$sys_admin: as sys_admin #Crimson
+actor :$client: as client #Royalblue
+
+package Admin as account_admin #Crimson {
+    usecase "$LF04" as LF04
+    usecase "$LF05" as LF05
+    usecase "$LF06" as LF06
+}
+
+package Konto as account #Royalblue {
+
+  usecase "$LF01_1" as LF01.1
+  usecase "$LF01_2" as LF01.2
+  usecase "$LF02" as LF02
+  usecase "$LF03" as LF03
+  usecase "$LF07" as LF07
+  usecase "$LF08" as LF08
+  usecase "$LF09_1" as LF09.1
+  usecase "$LF09_1" as LF09.2
+  usecase "$LF50" as LF50
+  usecase "$LF51" as LF51
+  usecase "$LF52" as LF52
+  usecase "$LF20" as LF20   
+}
+
+
+left to right direction
+
+
+sys_admin -right- account_admin #Crimson
+client -- account #Royalblue
+
+sys_admin -|> "Extends" client #Crimson
+@enduml

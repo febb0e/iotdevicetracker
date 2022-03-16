@@ -1,0 +1,67 @@
+[[sec:qualitaetsanforderungen]]
+= Qualitätsanforderungen
+
+[[LQ01, LQ01]]
+== [[LQ01, LQ01]] /LQ01/ Verarbeitungszeit eines Requests zur Metrikerzeugung
+[horizontal]
+Kategorie:: Performance / Antwortszeit
+Beschreibung:: 99% aller Aufrufe an die RESTful-Backend Schnittstelle zur Erzeugung einer Visualisierung der IoT Device Metriken
+in weniger als 100ms verarbeitet werden.
+
+[[LQ02, LQ02]]
+== [[LQ02, LQ02]] /LQ02/ Durchsatz von Requests zur Metrikerzeugung
+[horizontal]
+Kategorie:: Performance / Durchsatz
+Beschreibung:: Die RESTful-Backend Schnittstelle muss einen Workload von 200 Requests zur Erzeugung von Metrikvisualisierungen pro Sekunde
+ohne Verschlechterung der Antwortzeiten aus <<LQ01>> Request verarbeiten können.
+
+[[LQ03, LQ03]]
+== [[LQ03, LQ03]] /LQ03/ Speicherkapazität für Metrikerzeugungen
+[horizontal]
+Kategorie:: Performance / Kapazität
+Beschreibung:: Die RESTful-Backend Schnittstelle muss 10.000.000.000 Metrikerzeugungen der IoT Devices speichern können.
+
+[[LQ04, LQ04]]
+== [[LQ04, LQ04]] /LQ04/ Skalierbarkeit bei schwankenden Workloads
+[horizontal]
+Kategorie:: Performance / Skalierbarkeit
+Beschreibung:: IoT Device-Tracker muss auf eine langfristige Zunahme und saisonale Schwankungen im Workload durch
+automatische horizontale Skalierung reagieren können.
+
+[[LQ05, LQ05]]
+== [[LQ05, LQ05]] /LQ05/ Robustheit gegen Ausfall des Frontends
+[horizontal]
+Kategorie:: Verlässlichkeit / Robustheit
+Beschreibung:: IoT Device-Tracker muss über die Web-API verwendbar sein, selbst wenn das Frontend ausfällt und insbesondere keine Device-Metriken liefern kann.
+
+[[LQ06, LQ06]]
+== [[LQ06, LQ06]] /LQ06/ Verfügbarkeit
+[horizontal]
+Kategorie:: Verlässlichkeit / Verfügbarkeit
+Beschreibung:: IoT Device-Tracker muss bei einwandfreiem Deployment zu 99,99% verfügbar sein, d.h. in Summe nicht mehr als 52 Minuten pro Jahr nicht-verfügbar.
+
+[[LQ07, LQ07]]
+== [[LQ07, LQ07]] /LQ07/ Konsistenz von Änderungen der User, Device oder Device-Group Daten
+[horizontal]
+Kategorie:: Verlässlichkeit / Konsistenz
+Beschreibung:: Bei Änderungen von User, Device oder Device-Group Daten im Web-Frontend müssen diese innerhalb von
+10 Minuten nach Änderung bei neuen Abfragen berücksichtigt werden.
+
+[[LQ08, LQ08]]
+== [[LQ08, LQ08]] /LQ08/ Nachvollziehbarkeit durch Logging
+[horizontal]
+Kategorie:: Wartbarkeit / Nachvollziehbarkeit
+Beschreibung:: Interaktionen von Usern mit IoT Device-Tracker müssen im Logging für den System-Admin nachvollziebar sein.
+
+[[LQ09, LQ09]]
+== [[LQ09, LQ09]] /LQ09/ Deployment fachlicher Änderungen
+[horizontal]
+Kategorie:: Wartbarkeit / Änderbarkeit
+Beschreibung:: Änderungen an bestehenden Komponenten müssen konfigurativ durchführbar sein,
+d.h. dieser Änderungen sollen den laufenden Betrieb nicht unterbrechen.
+
+[[LQ10, LQ10]]
+== [[LQ10, LQ10]] /LQ10/ Two-Factor-Login für System-Administratoren
+[horizontal]
+Kategorie:: Sicherheit
+Beschreibung:: System-Administratoren müssen sich über einen Two-Factor-Login-Verfahren authentifizieren.

@@ -1,0 +1,75 @@
+[[sec:installation]]
+= Installation
+
+Der IoT Device Tracker kann auf vielfältige Weise installiert (deployed) werden. In der folgenden Anleotung wird erklärt, wie man den IoT Device Tracker auf einer einzigen Maschine deployen kann. Dabei werden alle Komponenten des Gesamt-Systems mittels docker-compose auf einer einzigen Maschine installiert. Wir gehen in diesem Beispiel davon aus, dass ausschließlich IPv4 verwendet wird.
+
+== Mindest-Voraussetzungen
+Erfahrungsgemäß reicht ein VPS mit 2 vCPUs, 4GB RAM und 20GB Speicherplatz für den Anfang aus. Sobald mehr Traffic erwartet wird, sollte das System jedoch geupgradet werden und die einzelnen Komponenten ggf. auf mehrere Maschinen verteilt werden.
+
+== System-Voraussetzungen
+Es wird ein Linux Host-Betriebssystem vorausgesetzt, welches eine aktuelle Version von Docker und Docker Compose installiert hat.
+
+Installationsanleitung Docker: https://docs.docker.com/engine/install/.
+Installationsanleitung Docker Compose: https://docs.docker.com/compose/install/
+
+Die Ports 80 und 443 müssen freigeschaltet sein.
+
+== Domain-Voraussezungen
+Es wird eine Domain (hier: example.com) vorausgesetzt, über die der IoT Device Tracker später erreichbar sein wird. Für die Domain müssen einige A Records aufgesetzt werden, welche auf die öffentliche IPv4 Adresse der Maschine (hier: 1.2.3.4) zeigen:
+
+1. A www.example.com 1.2.3.4
+2. A api.example.com 1.2.3.4
+3. A influxdb.example.com 1.2.3.4
+4. A mosquitto.example.com 1.2.3.4
+
+== Sonstige Voraussetzungen
+Es wird ein SMTP Server zum Senden von E-Mails vorausgesetzt.
+
+== Sample Deployment kopieren
+Im Ordner sample_deployment befinden sich einige Konfigurationsdateien, welche ein guter Startpunkt sind. Kopiere alle Dateien in diesem Ordner in einen beliebigen Ordner auf der Maschine.
+
+== Standard-Zugangsdaten ändern
+Bearbeite nun die Datei docker-compose.yaml wie folgt:
+
+1. Zeile 20-21: Beliebigen Nutzernamen und Passswort für die Postgres Datenbank wählen
+2. Zeile 34-36: Beliebige Zugangsdaten, Organisations- und Bucket-Namen wählen. Der Name der Organisation ist meistens der Name des Unternehmens, welches den IoT Device Tracker deployed.
+3. Zeile 82-84: Datenbank Zugangsdaten aus Schritt 1 eintragen
+4. Zeile 85-88: Zugangsdaten für den SMTP Server eintragen
+
+== Reverse Proxy konfigurieren
+Bearbeite nun die Datei nginx/nginx.conf und ersetze überall example.com durch deine Domain.
+
+== SSL Zertifikate aufsetzen
+nginx benötigt gültige SSL Zertifikate. Diese kann man beispielsweise über Certbot (Let's Encrypt) kostenlos erhalten: https://certbot.eff.org/instructions.
+Sollen andere Zertifikate verwendet werden, muss der bestehende Pfad (/etc/letsencrypt/...) in nginx/nginx.conf und docker-compose.yaml angepasst werden.
+
+== Anwendung das erste mal starten
+Alle Komponenten müssen nun über den Befehl `docker-compose up -d` gestartet werden.
+Anschließend sollte unter https://influxdb.example.com die InfluxDB erreichbar sein. Logge dich ein und navigiere zu Data -> Tokens.
+Dort müssen wir nun 2 Tokens für den Metrics Collector (Telegraf) und das Backend erstellen.
+
+=== Metrics Collector konfigurieren
+1. Klicke auf Generate Token -> Read/Write Token und wähle als Beschreibung Metrics Collector
+2. Wähle sowohl bei Read als auch bei Write "Scoped" aus. Bei Write muss nun der Bucket (Standard: iotdt) ausgewählt werden.
+3. Klicke anschließend auf Save. Ein neuer Eintrag sollte in der Liste erschienen sein.
+4. Klicke auf "Metrics Collector Token" und kopiere den erstellten Token.
+5. Füge den kopierten Token in die Datei `telegraf/telegraf.conf` in Zeile 23 ein. In Zeile 24 und 25 müssen außerdem die aktualisierten InfluxDB Zugangsdaten eingetragen werden.
+
+=== Backend konfigurieren
+Generiere einen weiteren Token in der InfluxDB, indem du wie zuvor verfährst. Vergib diesmal nur Read und keine Write Permissions auf den Bucket (Standard: iotdt).
+
+Kopiere den neu erstellten Token wie zuvor und füge ihn in der `docker-compose.yaml` in Zeile 90 (INFLUX_TOKEN: ) ein.
+
+== MQTT Broker Zugangsdaten konfigurieren
+Nun ändern wir die Zugangsdaten für den MQTT Broker.
+
+1. Starte eine interaktive Shell in den Mosquitto Container: `docker-compose exec mosquitto /bin/bash`
+2. Lösche die Standardzugangsdaten: `rm /etc/mosquitto/auth/password_file`
+3. Denke dir 2 Passwörter aus (bzw. generiere 2). Das erste ist für den admin Zugang und das zweite für den Metrics Collector.
+4. Führe folgenden Befehl aus, um das admin Passwort zu setzen: `echo "admin:$(/mosquitto/pw -p 'My Admin Password')" >> /etc/mosquitto/auth/password_file`
+5. Führe folgenden Befehl aus, um das telegraf Passwort zu setzen: `echo "telegraf:$(/mosquitto/pw -p 'My Telegraf Password')" >> /etc/mosquitto/auth/password_file`
+6. Trage das telegraf Passwort in der `telegraf/telegraf.conf` Datei in Zeile 4 ein.
+
+== Alle Services neu starten
+Führe die Befehle `docker-compose down` und `docker-compose up -d` nacheinander aus.
+Das System ist einsatzbereit!

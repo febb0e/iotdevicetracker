@@ -1,0 +1,25 @@
+@startuml
+
+database postgresql [
+    <b>PostgreSQL</b>
+
+    ----
+
+    User
+    TotpAuthenticator
+    RecoveryCode
+    Device
+    DeviceGroup
+    DeviceGroupUser
+
+]
+
+database influxdb [
+    <b>InfluxDB</b>
+
+    ----
+
+    Metric
+]
+
+@enduml

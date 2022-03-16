@@ -1,0 +1,11 @@
+[[sec:zeitplanung]]
+= Zeitplanung
+
+[[fig:zeitplanung]]
+.Zeitplanung
+[plantuml]
+----
+language de
+' include::../uml/Gantt.style.puml[]
+include::../uml/Gantt.puml[]
+----

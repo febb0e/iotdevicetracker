@@ -1,0 +1,106 @@
+[[sec:administration]]
+= Administration
+
+== Logging
+
+Logs können mithilfe von docker-compose eingesehen werden, dabei können auf dem laufenden System folgende Befehle verwendet werden:
+
+- `docker-compose logs frontend`
+- `docker-compose logs backend`
+- `docker-compose logs nginx`
+- `docker-compose logs telegraf`
+- `docker-compose logs postgres`
+- `docker-compose logs sonarqube`
+- `docker-compose logs mosquitto`
+
+Für Mosquitto gibt es noch eine Log Datei die detailreicher ist, einsehbar unter `mosquitto/log/mosquitto.log`.
+
+== Konfiguration
+
+=== Umgebungsvariablen
+
+Es können folgende Umgebungsvariablen zur Konfiguration genutzt werden.
+
+Frontend:
+
+- `HOST`
+- `PORT`
+
+Backend:
+
+. SQL Datenbank
+- `SPRING_DATASOURCE_URL` (z.B. `jdbc:postgresql://localhost:5432/iotdtdev`)
+- `SPRING_DATASOURCE_USERNAME`
+- `SPRING_DATASOURCE_PASSWORD`
+
+. NOSQL/INFLUX Datenbank
+- `INFLUX_URL`
+- `INFLUX_USERNAME`
+- `INFLUX_PASSWORD`
+- `INFLUX_TOKEN`
+- `INFLUX_ORG`
+- `INFLUX_BUCKET`
+
+. Mail Server
+- `SPRING_MAIL_HOST`
+- `SPRING_MAIL_PORT`
+- `SPRING_MAIL_USERNAME`
+- `SPRING_MAIL_PASSWORD`
+
+. Logging Level
+- `LOGGING_LEVEL_ROOT`: (`info`; `warn`; `error`; `debug`; `trace`)
+
+Daemon:
+
+- `MQTT_URL`
+- `MQTT_PASSWORD`
+
+
+=== Komponenten Konfigurationen
+
+Die einzelnen Komponenten können basierend auf dem `sample_deployment` angepasst werden.
+
+== UI-Dashboard
+
+Als System-Admin hat man Zugriff auf alle Entitäten und kann diese auch bearbeiten.
+
+Dies erfolgt durch die hinzugefügten Optionen in der Menüauswahl:
+
+image::../../abbildungen/admin/ui/Extended_Menu.png[]
+
+Die Verwaltung der Benutzer erfolgt dann in einer Liste die folgend aussieht:
+
+image::../../abbildungen/admin/ui/User_List.png[]
+
+Die einzelnen Benutzer können von hier entweder gelöscht werden oder bearbeitet werden, das Popup bei der Bearbeitung bietet folgende Optionen:
+
+image::../../abbildungen/admin/ui/User_Edit.png[]
+
+***
+
+Weiterhin können auch alle existenten Device-Groups eingesehen werden unter "Device Groups":
+
+image::../../abbildungen/admin/ui/Group_List.png[]
+
+Durch drücken auf `Show` wird man dann ins Dashboard für die jeweilige Gruppe weitergeleitet, unabhängig ob man teil davon nun ist. Weiterhin besitzt ein System-Admin in jeder Gruppe implizit die Admin-Rolle auch wenn er gar nicht teil davon ist.
+
+== Release
+Ein Release kann mithilfe eines Tags im Gitlab erstellt werden.
+Dabei wird das Frontend und Backend Image erstellt und mit dem `latest` docker-tag getagt sowie mit dem Namen des Gitlab-Tags.
+
+Gepushed wird auf Docker-Hub.
+
+Wenn ein Tag mit dem Namen `0.0.1` erstellt wurde sind dann folgende images mit tags abrufbar:
+
+- `iotdevicetracker/frontend:latest`
+- `iotdevicetracker/frontend:0.0.1`
+- `iotdevicetracker/backend:latest`
+- `iotdevicetracker/backend:0.0.1`
+
+Vollständige Pipeline in Gitlab:
+
+image::../../abbildungen/admin/release/pipeline_success.png[]
+
+Sobald die Images gebuildet und in die Docker-Registry gepushed wurden, können diese auf den VPS gepullt und mit `docker-compose up -d` aktualisiert werden. +
+Wenn die Änderungen der Webanwendung live sind, können die Cypress End-to-End Tests aus der GitLab CI-Pipeline manuell gestartet werden.
+Das hat den Grund, dass die Cypress E2E Tests auf der Webanwendung selbst laufen und die Änderungen dafür live sein müssen.

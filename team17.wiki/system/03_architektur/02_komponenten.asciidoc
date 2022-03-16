@@ -1,0 +1,21 @@
+[[sec:komponenten]]
+= Komponenten
+
+[plantuml]
+----
+include::../../uml/Komponenten.puml[]
+----
+
+Der IoT Device Tracker ist ein System, welches aus mehreren Komponenten besteht, die über das Netzwerk miteinander kommunizieren. Erst das Zusammenspiel dieser Komponenten ermöglicht die Funktionalität des IoT Device Tracker.
+
+== Komponente MQTT Broker
+Der MQTT Broker stellt die MQTT Schnittstelle bereit, über die IoT Devices Metriken an das System senden können.
+
+== Komponente Metrics Collector
+Der Metrics Collector nutzt Telegraf, um die Metriken via MQTT mitzulesen und regelmäßig in der InfluxDB zu persistieren.
+
+== Komponenente Frontend
+Das Frontend liefer die Web-Oberfläche via HTTP aus.
+
+== Komponente Backend
+Das Backend beinhaltet die Geschäftslogik und stellt die RESTful Web API bereit.

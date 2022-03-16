@@ -1,0 +1,99 @@
+ifndef::imagesdir[]
+:imagesdir: ./abbildungen
+endif::[]
+
+:sectnums:
+:toc: macro
+// :data-uri: ist notwendig, damit Bilder auch im PDF-Export richtig eingebunden werden 
+:data-uri:
+:doctype: book
+:sectanchors: 
+
+// Folgende Zeilen bitte in jedem Fall auf Ihr Projekt anpassen
+= IoT - Device Tracker
+System- und Projektdokumentation
+
+[horizontal]
+Team:: 17
+Mitglieder::
+* Pascal Sthamer (psthamer, pascal.sthamer@smail.th-koeln.de)
+* Philipp Seincher (pseinche, philipp.seincher@smail.th-koeln.de)
+* Fabian Tsirogiannis (ftsirogi, fabian_pascal.tsirogiannis@smail.th-koeln.de)
+// hier wird letztlich die datetime zum Zeitpunkt der PDF-Erzeugung eingefügt
+Version vom:: {localdate}, {localtime}
+// bis hierhin auf jeden Fall anpassen
+
+toc::[title=Inhaltsverzeichnis,levels=4]
+
+// Seitenumbruch für den PDF-Export mittels <<< wo sinnvoll
+<<<
+[[sec:system]]
+= System
+Dieser Dokumentteil dokumentiert das entwickelte System aus verschiedenen Blickwinkeln. 
+
+<<<
+[[sec:anforderungen]]
+== Anforderungen
+In diesem Kapitel werden Anforderungen an das Systems beschrieben. Es entspricht inhaltlich dem klassischen _Lastenheft_. Technische Details und Entscheidungen werden hier nicht beschrieben.
+
+include::system/01_anforderungen/01_uebersicht.asciidoc[leveloffset=+2]
+
+include::system/01_anforderungen/02_akteure.asciidoc[leveloffset=+2]
+
+include::system/01_anforderungen/03_anwendungsfaelle.asciidoc[leveloffset=+2]
+
+include::system/01_anforderungen/04_daten.asciidoc[leveloffset=+2]
+
+include::system/01_anforderungen/05_qualitaetsanforderungen.asciidoc[leveloffset=+2]
+
+include::system/01_anforderungen/06_randbedingungen.asciidoc[leveloffset=+2]
+
+<<<
+[[sec:spezifikation]]
+== Spezifikation
+In diesem Kapitel wird spezifiziert, wie sich das System _nach außen_ verhalten soll, d.h. welche Schnittstellen-Funktionen via UI oder API bereitgestellt werden, welche Entitäten das System verarbeitet und wie diese zueinander stehen und welches Verhalten das System zeigt. Der innere Aufbau des Systems ist nicht Gegenstand dieses Kapitels. 
+
+include::system/02_spezifikation/01_datenschema.asciidoc[leveloffset=+2]
+
+include::system/02_spezifikation/02_verhalten.asciidoc[leveloffset=+2]
+
+include::system/02_spezifikation/03_schnittstellen.asciidoc[leveloffset=+2]
+
+<<<
+[[sec:architektur]]
+== Architektur
+Dieses Kapitel beschreibt den Zusammenhang des Systems mit Nachbarsystemen, den inneren Aufbau des Systems und seiner (späteren) Code-Basis, innere Abläufe und die (spätere) Verteilung des Systems und seiner Deployment-Artefakte.
+
+include::system/03_architektur/01_kontext.asciidoc[leveloffset=+2]
+
+include::system/03_architektur/02_komponenten.asciidoc[leveloffset=+2]
+
+include::system/03_architektur/03_laufzeitsicht.asciidoc[leveloffset=+2]
+
+include::system/03_architektur/04_verteilung.asciidoc[leveloffset=+2]
+
+<<<
+[[sec:benutzer]]
+== Benutzer
+Dieses Kapitel beschreibt die Verwendung des Systems durch die link:system/01_anforderungen/02_akteure#sec:akteure[identifizierten Akteure].
+
+include::system/04_benutzer/01_installation.asciidoc[leveloffset=+2]
+
+include::system/04_benutzer/02_administration.asciidoc[leveloffset=+2]
+
+include::system/04_benutzer/03_benutzung.asciidoc[leveloffset=+2]
+
+include::system/04_benutzer/04_entwicklung.asciidoc[leveloffset=+2]
+
+<<<
+[[sec:projekt]]
+= Projekt
+Dieser Dokumentteil dokumentiert Details zur Projektdurchführung. 
+
+include::projekt/01_zeitplanung.asciidoc[leveloffset=+1]
+
+include::projekt/02_verantwortungsbereiche.asciidoc[leveloffset=+1]
+
+include::projekt/03_testprotokoll.asciidoc[leveloffset=+1]
+
+NOTE: Es ist ein bekannter Bug, dass diese Datei im GitLab-Preview nicht richtig angezeigt wird. Sie dient in erster Linie dem PDF-Export der Gesamtdokumentation.

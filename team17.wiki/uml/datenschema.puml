@@ -1,0 +1,75 @@
+@startuml datenschema
+class User {
+    -id Int
+    -username String
+    -password String
+    -email String
+    -verified Boolean
+    -verificationToken String?
+    -role UserRole
+    -updatedAt Date?
+    -createdAt Date
+}
+
+class TOTPAuthenticator {
+    -id Int
+    -userId Int
+    -secret String
+    -verified Boolean
+    -updatedAt Date?
+    -createdAt Date
+}
+
+class RecoveryCode {
+    -id Int
+    -code String
+}
+
+class Device {
+    -id Int
+    -identifier String
+    -name String?
+    -token String
+    -updatedAt Date?
+    -createdAt Date
+}
+
+class DeviceGroup {
+    -id Int
+    -name String
+    -updatedAt Date?
+    -createdAt Date
+}
+
+enum UserRole {
+    USER
+    SYSADMIN
+}
+
+enum DeviceGroupRole {
+    OBSERVER
+    ADMIN
+}
+
+class DeviceGroupUser {
+    -role DeviceGroupRole
+    -updatedAt Date?
+    -createdAt Date
+}
+
+class Metric {
+    -deviceIdentifier String
+    -metric String
+    -timestamp String
+}
+
+(User, DeviceGroup) .. DeviceGroupUser
+
+User "1" <-> "0..1" TOTPAuthenticator
+
+User "1" <-> "0..16" RecoveryCode
+
+Device "*" <-> "1" DeviceGroup
+
+Metric "*" <-> "1" Device
+@enduml

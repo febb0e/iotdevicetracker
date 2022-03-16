@@ -1,0 +1,21 @@
+<style>
+root {
+    Fontname "Courier new"
+}
+ganttDiagram {
+    BackgroundColor DimGrey
+    timeline {
+	    BackgroundColor Bisque
+	}
+    separator {
+		BackgroundColor DarkSlateGray
+		LineStyle 8.0;3.0
+		LineColor Gold
+		LineThickness 2.0
+		FontSize 14
+		FontStyle italic
+		FontColor Ghostwhite
+		Margin 5
+	}
+}
+</style>

@@ -1,0 +1,6 @@
+@startuml DeviceGroup_Lifecycle
+left to right direction
+(*) -->[Device Group erstellen] "Existiert"
+"Existiert" -->[Device hinzufuegen/\nDevice loeschen] "Existiert"
+"Existiert" -->[Device Group loeschen] (*)
+@enduml

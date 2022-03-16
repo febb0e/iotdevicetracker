@@ -1,0 +1,2 @@
+ALTER TABLE device
+    ALTER COLUMN identifier TYPE VARCHAR(100) USING (identifier::VARCHAR(100));

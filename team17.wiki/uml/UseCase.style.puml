@@ -1,0 +1,32 @@
+<style>
+root {
+    Fontname "Roboto"
+    BackgroundColor Transparent
+}
+
+usecase-diagram {
+    
+
+    group {
+        Backgroundcolor Honeydew/PeachPuff
+    }
+
+    usecase {
+        Backgroundcolor Honeydew/PeachPuff
+        LineColor Black
+    }
+
+    arrow {
+        LineThickness 2
+        LineColor Salmon
+        Fontname Consolas
+        FontSize 12
+        FontColor Black
+        FontStyle Italic
+    }
+    actor {
+        LineColor black
+        FontStyle Bold
+    }
+}
+</style>

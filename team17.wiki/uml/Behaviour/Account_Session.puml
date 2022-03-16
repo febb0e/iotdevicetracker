@@ -1,0 +1,4 @@
+@startuml Account_Session
+(*) ->[Anmeldung] "Angemeldet"
+"Angemeldet" ->[Logout/\nTimeout] (*)
+@enduml

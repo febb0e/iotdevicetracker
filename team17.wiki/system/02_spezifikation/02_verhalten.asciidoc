@@ -1,0 +1,63 @@
+[[sec:verhalten]]
+= Verhalten
+
+== Account
+=== Lifecycle
+[plantuml]
+[[fig:userregistrieren]]
+.Lebenszyklus eines Accounts
+----
+' include::../../uml/Activity.style.puml[]
+include::../../uml/Behaviour/Account_Lifecycle.puml[]
+----
+Nach der Registrierung muss der Account durch einen Code, welcher per E-Mail versendet wird, bestätigt werden.
+
+=== Login Session
+[plantuml]
+[[fig:usersessions]]
+.Session eines angemeldeten Users
+----
+' include::../../uml/Activity.style.puml[]
+include::../../uml/Behaviour/Account_Session.puml[]
+----
+Die Anmeldung eines Benutzers kann nur bei erfolgreicher Registrierung des Benutzers erfolgen. +
+Die Anmeldung eines Benutzers folgt dem gaengigen Schema einer Online-Anmeldung.
+
+== Device Group
+=== Lifecycle
+[plantuml]
+[[fig:lifecycle]]
+.Lifecycle einer Device Group
+----
+' include::../../uml/Activity.style.puml[]
+include::../../uml/Behaviour/DeviceGroup_Lifecycle.puml[]
+----
+Durch das Erstellen einer Device Group wird diese erst existent.
+
+=== User Rollen
+[plantuml]
+[[fig:devicegrouphinzufuegen]]
+.Benutzer Rollen innerhalb einer Device Group
+----
+' include::../../uml/Activity.style.puml[]
+include::../../uml/Behaviour/DeviceGroup_Roles.puml[]
+----
+Wird eine Device Group erstellt, erhält der Ersteller dieser Device Group automatisch die Rolle "Admin". +
+Eine Device Group muss immer mindestens einen "Admin" besitzen. +
+Benutzer die eine Device Group nicht erstellt haben, haben zunächst "keine Rolle". +
+Wird einem Benutzer innerhalb der Device Group Zugriff erteilt, wechselt dieser in die "Beobachter" Rolle. +
+Werden "Admin" oder "Beobachter" die Rechte entzogen, besitzen diese wieder "keine Rolle". +
+"Beobachter" können zu "Admins" werden, wenn deren Rechte erhoeht werden. +
+"Admins" werden zu "Beobachter", wenn deren Rechte reduziert werden.
+
+== TOTP Authenticator
+=== Authenticator anlegen
+[plantuml]
+[[fig:totpanlegen]]
+.Anlegen von TOTP Authenticator
+----
+' include::../../uml/Activity.style.puml[]
+include::../../uml/Behaviour/TOTP_Lifecycle.puml[]
+----
+Die TOTP Authentifizierung kann zusätzlich zur Kennwort Authentifizierung hinzugefügt werden. +
+Für System-Admins ist diese auch verpflichtend.

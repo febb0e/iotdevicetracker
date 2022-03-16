@@ -1,0 +1,54 @@
+@startuml deployment
+
+node browser [
+    <<client>>
+    Browser
+]
+
+node iot [
+    <<IoT_client>>
+    Daemon - Metric
+]
+
+node proxy as "<<app_server>>\nGateway" {
+    package gateway_docker as "Docker" {
+        artifact "Reverse Proxy"    
+    }
+}
+
+node mqttserver as "<<app_server>>\nMQTT Server" {
+    package mqtt_docker as "Docker" {
+        artifact Mosquitto
+    }
+}
+
+node appserver as "<<app_server>>\nApp Server" {
+    package app_docker as "Docker" {
+        artifact "Frontend"
+        artifact "Backend"
+    }
+}
+
+node dbserver as "<<app_server>>\nDB Server" {
+    package db_docker as "Docker" {
+        artifact Postgres
+        artifact InfluxDB
+        artifact "Metrics Collector"
+    }
+
+    package storage as "Storage" {
+        storage pgdata
+        storage influxdata
+    }
+
+    Postgres -down-> pgdata
+    InfluxDB -down-> influxdata
+}
+
+browser -down- proxy : https
+proxy -down- appserver : http
+appserver -down- dbserver :  http / SQL
+iot -down- mqttserver : MQTT
+dbserver -left- mqttserver : MQTT
+
+@enduml

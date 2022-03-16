@@ -1,0 +1,6 @@
+:experimental: // for keyboard shortcuts with kbd:
+:data-uri:
+
+Willkommen im Wiki des IoT Device Tracker!
+In der Seitenleite rechts können einzelne Seiten betrachtet werden.
+Um die gesamte Dokumentation auf einmal anzuzeigen, gibt es recht oben die Seite alldocs.

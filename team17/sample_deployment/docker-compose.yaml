@@ -1,0 +1,105 @@
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - 80:80/tcp
+      - 443:443/tcp
+    networks:
+      - nginx
+
+  postgres:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: iotdtdev
+      POSTGRES_PASSWORD: iotdtdev
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432/tcp
+    networks:
+      - backend
+
+  influxdb:
+    image: influxdb:2.0-alpine
+    restart: unless-stopped
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: iotdtdev
+      DOCKER_INFLUXDB_INIT_PASSWORD: iotdtdev
+      DOCKER_INFLUXDB_INIT_ORG: thkoeln
+      DOCKER_INFLUXDB_INIT_BUCKET: iotdt
+    volumes:
+      - influxdb:/var/lib/influxdb2
+    networks:
+      - telegraf
+      - nginx
+      - backend
+
+  mosquitto:
+    image: iegomez/mosquitto-go-auth
+    restart: unless-stopped
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/etc/mosquitto/mosquitto.conf
+      - ./mosquitto/config/auth:/etc/mosquitto/auth
+      - ./mosquitto/data:/var/lib/mosquitto
+      - ./mosquitto/log:/var/log/mosquitto
+    networks:
+      - telegraf
+      - nginx
+      - backend
+
+  telegraf:
+    image: telegraf:1.20-alpine
+    restart: unless-stopped
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    networks:
+      - telegraf
+
+  frontend:
+    image: iotdevicetracker/frontend:latest
+    restart: unless-stopped
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3000
+      API_URL: http://backend:8080
+    networks:
+      - nginx
+      - backend
+
+  backend:
+    image: iotdevicetracker/backend:latest
+    restart: unless-stopped
+    environment:
+      SERVER_FORWARD_HEADERS_STRATEGY: native
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/iotdtdev
+      SPRING_DATASOURCE_USERNAME: iotdtdev
+      SPRING_DATASOURCE_PASSWORD: iotdtdev
+      SPRING_MAIL_HOST: smtp.mailtrap.io
+      SPRING_MAIL_PORT: 2525
+      SPRING_MAIL_USERNAME: 5e6c2d8c072493
+      SPRING_MAIL_PASSWORD: 8572555b52d3cf
+      INFLUX_URL: http://influxdb:8086
+      INFLUX_TOKEN: zlmRNLFpu9Of3X7Nwusss6mLxBwPbt-_pYKMlJE7Ox5wL-7Js_NUtfijdarAsalS7cCZ4hshg5oFElhakDV9eA==
+      INFLUX_ORG: thkoeln
+      INFLUX_BUCKET: iotdt
+      LOGGING_LEVEL_ROOT: info
+    networks:
+      - nginx
+      - backend
+
+networks:
+ telegraf:
+ nginx:
+ backend:
+
+volumes:
+  pgdata:
+  influxdb:

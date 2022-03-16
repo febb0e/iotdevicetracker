@@ -1,0 +1,181 @@
+@startuml
+
+printscale weekly zoom 2.5
+project starts the 2021/09/27
+monday is colored Lightgreen
+tuesday is colored Lightgreen
+wednesday is colored Lightgreen
+thursday is colored Lightgreen
+friday is colored Lightgreen
+saturday is colored in salmon
+sunday is colored in salmon
+-- Projektplanungsphase --
+[Übersicht] is colored in MediumPurple
+[Übersicht] on {ftsirogi} {pseinche} {psthamer} lasts 14 days
+[Akteure] is colored in MediumPurple
+[Akteure] on {ftsirogi} {pseinche} {psthamer} lasts 14 days
+[Anwendungsfälle] is colored in MediumPurple
+[Anwendungsfälle] on {ftsirogi} {pseinche} {psthamer} lasts 14 days
+[Daten] is colored in MediumPurple
+[Daten] on {ftsirogi} {pseinche} {psthamer} lasts 14 days
+[Qualitätsanforderung] is colored in MediumPurple
+[Qualitätsanforderung] on {ftsirogi}{pseinche}{psthamer} lasts 14 days
+[Randbedingungen] is colored in MediumPurple
+[Randbedingungen] on {ftsirogi} {pseinche} {psthamer} lasts 14 days
+[MS1.0] happens at 2021/10/27
+[MS1.0] is colored in Crimson
+
+[Übersicht] ends at [MS1.0]'s start
+[Akteure] ends at [MS1.0]'s start
+[Anwendungsfälle] ends at [MS1.0]'s start
+[Daten] ends at [MS1.0]'s start
+[Qualitätsanforderung] ends at [MS1.0]'s start
+[Randbedingungen] ends at [MS1.0]'s start
+
+[Übersicht] starts at 2021/10/01
+[Akteure] starts at 2021/10/01
+[Anwendungsfälle] starts at 2021/10/01
+[Daten] starts at 2021/10/01
+[Qualitätsanforderung] starts at 2021/10/01
+[Randbedingungen] starts at 2021/10/01
+
+[Datenschema] is colored in MediumPurple
+[Datenschema] on {psthamer} lasts 14 days
+[Verhalten] is colored in MediumPurple
+[Verhalten] on {ftsirogi} lasts 14 days
+[Schnittstellen-Frontend] is colored in MediumPurple
+[Schnittstellen-Frontend] on {psthamer} lasts 14 days
+[Zeitplanung] is colored in Khaki
+[Zeitplanung] on {pseinche} lasts 14 days
+[Verantwortungsbereiche] is colored in Khaki
+[Verantwortungsbereiche] on {pseinche} lasts 14 days
+[Korrektur MS1.0] is colored in Coral
+[Korrektur MS1.0] on {pseinche} lasts 14 days
+
+
+[MS2.0] happens at 2021/11/17
+[MS2.0] is colored in Crimson
+
+[Datenschema] ends at [MS2.0]'s start
+[Verhalten] ends at [MS2.0]'s start
+[Schnittstellen-Frontend] ends at [MS2.0]'s start
+[Zeitplanung] ends at [MS2.0]'s start
+[Verantwortungsbereiche] ends at [MS2.0]'s start
+[Korrektur MS1.0] ends at [MS2.0]'s start
+
+[Datenschema] starts at [MS1.0]'s end
+[Verhalten] starts at [MS1.0]'s end
+[Schnittstellen-Frontend] starts at [MS1.0]'s end
+[Zeitplanung] starts at [MS1.0]'s end
+[Verantwortungsbereiche] starts at [MS1.0]'s end
+[Korrektur MS1.0] starts at [MS1.0]'s end
+
+-- Prototypenintegrations- und Testphase --
+
+[Prototyp] is colored in Gold
+[Prototyp] on {ftsirogi} {pseinche} {psthamer} lasts 14 days
+[Kontext] is colored in MediumPurple
+[Kontext] on {pseinche} lasts 14 days
+[Komponenten] is colored in MediumPurple
+[Komponenten] on {ftsirogi} lasts 14 days
+[Laufzeitschicht] is colored in MediumPurple
+[Laufzeitschicht] on {psthamer} lasts 14 days
+[Verteilung] is colored in MediumPurple
+[Verteilung] on {ftsirogi} lasts 14 days
+[Präsentation] is colored in Indianred
+[Präsentation] on {ftsirogi} {pseinche} {psthamer} lasts 14 days
+[Korrektur MS2.0] is colored in Coral
+[Korrektur MS2.0] on {ftsirogi} {pseinche} {psthamer} lasts 14 days
+
+[MS3.0] happens at 2021/12/15
+[MS3.0] is colored in Crimson
+
+[Prototyp] ends at [MS3.0]'s start
+[Korrektur MS2.0] ends at [MS3.0]'s start
+[Kontext] ends at [MS3.0]'s start
+[Komponenten] ends at [MS3.0]'s start
+[Laufzeitschicht] ends at [MS3.0]'s start
+[Verteilung] ends at [MS3.0]'s start
+[Präsentation] ends at [MS3.0]'s start
+
+
+[Prototyp] starts at [MS2.0]'s end
+[Korrektur MS2.0] starts at [MS2.0]'s end
+[Kontext] starts at [MS2.0]'s end
+[Komponenten] starts at [MS2.0]'s end
+[Laufzeitschicht] starts at [MS2.0]'s end
+[Verteilung] starts at [MS2.0]'s end
+[Präsentation] starts at [MS2.0]'s end
+
+-- Hauptintegrations- und Testphase --
+
+[Datenbanken] is colored in RoyalBlue
+[Datenbanken] on {ftsirogi} lasts 14 days
+[Backend] is colored in RoyalBlue
+[Backend] on {pseinche} lasts 14 days
+[Frontend] is colored in RoyalBlue
+[Frontend] on {psthamer} lasts 14 days
+[MQTT Broker] is colored in RoyalBlue
+[MQTT Broker] on {ftsirogi} lasts 14 days
+[Daemon] is colored in RoyalBlue
+[Daemon] on {ftsirogi} lasts 14 days
+
+[Installation] is colored in MediumPurple
+[Installation] on {pseinche} lasts 14 days
+[Administration] is colored in MediumPurple
+[Administration] on {psthamer} lasts 14 days
+[Benutzung] is colored in MediumPurple
+[Benutzung] on {ftsirogi} lasts 14 days
+[Entwicklung] is colored in MediumPurple
+[Entwicklung] on {pseinche} lasts 14 days
+[Testprotokoll] is colored in Khaki
+[Testprotokoll] on {psthamer} lasts 14 days
+[Korrektur MS3.0] is colored in Coral
+[Korrektur MS3.0] on {ftsirogi} {pseinche} {psthamer} lasts 14 days
+
+[MS4.0] happens at 2022/01/19
+[MS4.0] is colored in Crimson
+
+[Datenbanken] ends at [MS4.0]'s start
+[MQTT Broker] ends at [MS4.0]'s start
+[Daemon] ends at [MS4.0]'s start
+[Backend] ends at [MS4.0]'s start
+[Frontend] ends at [MS4.0]'s start
+
+[Installation] ends at [MS4.0]'s start
+[Administration] ends at [MS4.0]'s start
+[Benutzung] ends at [MS4.0]'s start
+[Entwicklung] ends at [MS4.0]'s start
+[Testprotokoll] ends at [MS4.0]'s start
+[Korrektur MS3.0] ends at [MS4.0]'s start
+
+[Datenbanken] starts at [MS2.0]'s end
+[MQTT Broker] starts at [MS2.0]'s end
+[Daemon] starts at [MS2.0]'s end
+[Backend] starts at [MS2.0]'s end
+[Frontend] starts at [MS2.0]'s end
+
+[Installation] starts at [MS3.0]'s end
+[Administration] starts at [MS3.0]'s end
+[Benutzung] starts at [MS3.0]'s end
+[Entwicklung] starts at [MS3.0]'s end
+[Testprotokoll] starts at [MS2.0]'s start
+[Korrektur MS3.0] starts at [MS3.0]'s end
+
+-- Projekt Abgabe --
+
+[Polishing] is colored in Coral
+[Polishing] on {ftsirogi} {pseinche} {psthamer} lasts 14 days
+[Korrektur MS4.0] is colored in Coral
+[Korrektur MS4.0] on {ftsirogi} {pseinche} {psthamer} lasts 14 days
+
+[MS5.0] happens at 2022/02/04
+[MS5.0] is colored in Crimson
+
+[Polishing] starts at [MS4.0]'s end
+[Korrektur MS4.0] starts at [MS4.0]'s end
+
+[Polishing] ends at [MS5.0]'s start
+[Korrektur MS4.0] ends at [MS5.0]'s start
+
+@enduml

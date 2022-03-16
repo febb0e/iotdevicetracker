@@ -1,0 +1,26 @@
+[[sec:laufzeitsicht]]
+= Laufzeitsicht
+
+== Anmeldung
+Die folgende Abbildung stellt den Anmeldevorgang dar. Dieser variiert je nachdem, ob der Nutzer die 2-Faktor-Authentifizierung aktiviert hat oder nicht.
+Eingabefehler, wie z.B. ein unbekannter Nutzername, ein falsches Passwort oder ein ungültiger TOTP-Token, werden dem Frontend durch das Backend mit Hilfe eines HTTP Response-Codes 422 signalisiert. Je nach Response-Body, reagiert das Frontend, indem es den Nutzer um eine erneute bzw. weitere Eingabe (im Falle von aktiviertem TOTP) bittet.
+[plantuml]
+----
+include::../../uml/runtime/login.puml[]
+----
+
+== Metriken erfassen
+Ein Kernbestandteil des IoT Device Trackers, ist die Erfassung von Metriken. Eine beliebige Anzahl IoT Devices, welche das MQTT Protokoll entweder nativ unterstützen oder unseren Daemon installiert haben, melden sich beim MQTT Broker (Mosquitto) an und veröffentlichen regelmäßig ihre Metriken.
+Eine Telegraf Instanz, welche auch mit dem MQTT Broker verbunden ist, liest alle Metriken mit und persistiert diese regelmäßig in InfluxDB.
+[plantuml]
+----
+include::../../uml/runtime/push-metrics.puml[]
+----
+
+== Gespeicherte Metriken auslesen
+Live-Metriken können über MQTT ausgelesen werden. Der MQTT Broker speichert jedoch keine vergangenen Metriken. Diese werden ausschließlich in der InfluxDB persistiert.
+Um diese Metriken einzusehen, wird eine Anfrage an das Backend gemacht, welches die Daten aus der InfluxDB holt, ggf. aggregiert und anschließend in Form von JSON an das Frontend zurückliefert. Das Frontend kann die Metriken dann je nach Typ visualisieren (z.B. in Form eines Graphen oder einer Weltkarte).
+[plantuml]
+----
+include::../../uml/runtime/read-metrics.puml[]
+----

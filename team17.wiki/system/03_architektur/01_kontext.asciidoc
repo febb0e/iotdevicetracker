@@ -1,0 +1,14 @@
+[[sec:kontext]]
+= Kontext
+
+[plantuml]
+----
+include::../../uml/Kontext.puml[]
+----
+
+Der IoT Device Tracker ist im Wesentlichen ein in sich geschlossenes System, welches ohne externe Systeme funktioniert.
+
+Es bietet nach außen eine HTTP Schnittstelle, welche die Weboberfläche ausliefert. Diese wird über einen Browser von Endnutzern aufgerufen.
+Außerdem wird eine weitere HTTP Schnittstelle, nämlich eine RESTful API, angeboten. Diese wird ebenfalls vom Browser aufgerufen, um verschiedene Aktionen auszuführen.
+
+Zusätzlich bietet der IoT Device Tracker eine MQTT Schnittstelle, mit welcher registrierte IoT Devices Metriken senden können.

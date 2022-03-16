@@ -1,0 +1,54 @@
+// In dieser Datei wird ein Bild mittels image: eingebunden.
+// Daher sollte die relative Lage des Abbildungsverzeichnisses angegeben werden.
+ifndef::imagesdir[]
+:imagesdir: ../../abbildungen
+endif::[]
+
+[[sec:schnittstellen]]
+= Schnittstellen
+
+[[sec:ui]]
+== User Interface
+Ist man nicht angemeldet, sieht man lediglich die Login-Seite (<<LF01.1>>).
+
+image::frontend_mockup/login.png[]
+
+Durch einen Klick auf `Forgot your password?` kann man den Vorgang zur Passwort-Zurücksetzung einleiten (<<LF09.1>>). Mit einem Klick auf `Register` gelangt man zur Registrierungs-Seite (<<LF02>>, <<LF07>>).
+
+image::frontend_mockup/register.png[]
+
+Ist man angemeldet, sieht man initial das Dashboard. Dort sieht man alle Device Groups, in die man hinzugefügt wurde (<<LF21>>). Mit dem Button `Create` kann man eine neue Device Group anlegen (<<LF20>>). Dazu öffnet sich ein Dialog.
+
+image::frontend_mockup/dashboard.png[]
+
+Klickt man auf eine Device Group, gelangt man auf eine neue Seite, welche weitere Informationen über die Device Group darstellt (<<LF21>>, <<LF11>>, <<LF31>>) - insbesondere die zugehörigen Devices und User.
+
+Über den Button `Edit` oben rechts, kann der Name der Device Group bearbeitet werden (<<LF22>>) und die Device Group kann gelöscht werden (<<LF23>>).
+Über den Button `Create Device` kann ein neues Device angelegt werden (<<LF10>>).
+Um einen User zu bearbeiten (<<LF32>>) oder aus der Device Group zu entfernen (<<LF33>>), gibt es den `Edit`-Button neben einem User in der Tabelle.
+Der Button `Add User` erlaubt es, einen User zur Device Group hinzuzufügen (<<LF30>>). Eingabemasken zum Erstellen und Bearbeiten öffnen sich jeweils in einem Dialog auf der aktuellen Seite.
+
+image::frontend_mockup/device_group.png[]
+
+Klickt man auf ein Device, gelangt man auf eine neue Seite. Dort kann man das Device über den `Edit`-Button bearbeiten (<<LF12>>) und löschen (<<LF13>>), sowie einen Zeitraum auswählen und die zugehörigen Metriken einsehen (<<LF41>>, <<LF42>>).
+Pro Metrik ist eine eigene Grafik und ein eigener Grafik-Typ (z.B. eine Landkarte) denkbar. Die hier angezeigte Grafik ist nur ein sehr simples Beispiel.
+
+image::frontend_mockup/device.png[]
+
+Als System-Admin hat man über die Seitenleiste Zugriff auf 2 weitere Seiten, welche die Verwaltung aller User (<<LF04>>, <<LF05>>, <<LF06>>) und Device Groups erlauben.
+
+image::frontend_mockup/admin_users.png[]
+image::frontend_mockup/admin_device_groups.png[]
+
+Ist man kein System-Admin, fehlen diese Punkte in der Seitenleiste.
+
+image::frontend_mockup/sidebar_user.png[]
+
+Um auf die Account-Einstellungen zuzugreifen und sich auszuloggen (<<LF01.2>>), klickt man oben rechts auf seinen Nutzernamen. Es erscheint ein Dropdown. Klickt man auf `Settings`, gelangt man zu einer neuen Seite, auf der man E-Mail Adresse und Passwort ändern (<<LF08>>, <<LF09>>), seinen Account löschen (<<LF03>>), sowie TOTP konfigurieren (<<LF50>>, <<LF51>>, <<LF52>>) kann.
+
+image::frontend_mockup/profile_dropdown.png[]
+
+Mobil passt sich das Layout der Seite entsprechend an (<<LC04>>). Die Seitenleiste wird ausgeblendet und ist über ein Burger-Menü oben links erreichbar.
+
+image::frontend_mockup/dashboard_mobile.png[]
+image::frontend_mockup/sidebar_mobile.png[]

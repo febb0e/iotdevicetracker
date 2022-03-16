@@ -1,0 +1,278 @@
+= [[anwendungsfaelle,anwendungsfaelle]]Anwendungsfälle
+:hardbreaks-option:
+
+[[fig:Anwendungsfalldiagramm-Global]]
+.Anwendungsfalldiagramm-Global
+[plantuml]
+----
+include::../../uml/UseCaseGlobal.puml[]
+----
+
+[[fig:Anwendungsfalldiagramm-Lokal]]
+.Anwendungsfalldiagramm-Lokal
+[plantuml]
+----
+include::../../uml/UseCaseLocal.puml[]
+----
+
+[[fig:Anwendungsfalldiagramm-IoT-Gerät]]
+.Anwendungsfalldiagramm-IoT-Gerät
+[plantuml]
+----
+include::../../uml/UseCaseOther.puml[]
+----
+
+[[LF01-1,LF01-1]]
+== [[LF01-1,LF01-1]]/LF01.1/ Anmeldung
+[horizontal]
+Priorität:: Muss
+Akteur:: Nutzer, System-Admin
+Beschreibung:: Der Akteur kann sich in der Webanwendung über den Reiter 'Login' mit einem Username, Passwort und TOTP (falls konfiguriert) anmelden.
+Die Anmeldedaten werden mit dem Eintrag in der link:https://www.postgresql.org[PostgreSQL 14] Datenbank verglichen (link:https://de.wikipedia.org/wiki/Bcrypt[bcrypt]).
+Stimmen die Daten nicht überein wird eine Fehlemeldung angezeigt.
+Stimmen die Login-Informationen überein, werden die zu dem Konto gehörigen Daten über Devices und Device-Groups aus der
+link:https://www.postgresql.org[PostgreSQL 14] Datenbank geholt und dem Akteur in der GUI präsentiert.
+
+[[LF01-2,LF01-2]]
+== [[LF01-2,LF01-2]]/LF01.2/ Abmeldung
+[horizontal]
+Priorität:: Muss
+Akteur:: Nutzer, System-Admin
+Beschreibung:: Der Akteur kann sich in der Webanwendung über den Reiter 'Logout' abmelden.
+
+[[LF02,LF02]]
+== [[LF02,LF02]]/LF02/ Registrierung
+[horizontal]
+Priorität:: Muss
+Akteur:: Anonym
+Beschreibung:: Ein angehender Nutzer kann sich über die Webanwendung unter Angabe eines Nutzernamens, einer E-Mail und eines Passworts (inklusive Bestätigung) registrieren.
+Das Passwort muss mindestens 8 Zeichen lang sein.
+Das registrierte Nutzerkonto wird mit deaktiviertem Verifizierungs-Status in der link:https://www.postgresql.org[PostgreSQL 14] Datenbank angelegt.
+Es wird anschließend eine Verifizierungs-E-Mail Adresse mit einem 6-stelligen alphanumerischen Code versendet.
+
+[[LF03,LF03]]
+== [[LF03,LF03]]/LF03/ Konto löschen
+[horizontal]
+Priorität:: Kann
+Akteur:: Nutzer, System-Admin
+Beschreibung:: Alle Akteure können ihr eigenes Konto permanent löschen.
+Das Konto und die zugehörigen Daten werden in der link:https://www.postgresql.org[PostgreSQL 14] Datenbank gelöscht.
+
+[[LF04,LF04]]
+== [[LF04,LF04]]/LF04/ User anzeigen
+[horizontal]
+Priorität:: Kann
+Akteur:: System-Admin
+Beschreibung:: Ein Akteur kann sich alle User anzeigen lassen.
+Ein Akteur kann über diese Ansicht nach Username filtern.
+Die Liste aller User wird aus der link:https://www.postgresql.org[PostgreSQL 14] Datenbank generiert.
+
+[[LF05,LF05]]
+== [[LF05,LF05]]/LF05/ User bearbeiten
+[horizontal]
+Priorität:: Kann
+Akteur:: System-Admin
+Beschreibung:: Ein Akteur kann alle User bearbeiten.
+Die Bearbeitung erfolgt über einen Button 'Bearbeiten' nachdem ein User ausgewählt wurde.
+Nach der Bearbeitung werden die Änderungen über den Button 'Speichern' gespeichert oder über den Button 'Abbrechen' verworfen.
+Die gespeicherten Änderungen werden in der link:https://www.postgresql.org[PostgreSQL 14] Datenbank übernommen.
+
+[[LF06,LF06]]
+== [[LF06,LF06]]/LF06/ User löschen
+[horizontal]
+Priorität:: Kann
+Akteur:: System-Admin
+Beschreibung:: Ein Akteur kann jeden User löschen.
+Das Löschen erfolgt über den Button 'Löschen' und muss nochmals in einem Popup-Fenster bestätigt werden.
+Das Löschen wird nach doppelter Bestätigung in der link:https://www.postgresql.org[PostgreSQL 14] Datenbank übernommen.
+
+[[LF07,LF07]]
+== [[LF07,LF07]]/LF07/ E-Mail Adresse bestätigen
+[horizontal]
+Priorität:: Muss
+Akteur:: Nutzer, System-Admin
+Beschreibung:: Ein Akteur kann seine E-Mail Adresse bestätigen, falls sein Nutzerkonto noch nicht verifiziert ist, indem er den 6-stelligen Code aus der Verifizierungs-Mail eingibt.
+Bei erfolgreichem Code wird der Verifizierungs-Status auf Verifiziert gesetzt.
+
+[[LF08,LF08]]
+== [[LF08,LF08]]/LF08/ E-Mail Adresse ändern
+[horizontal]
+Priorität:: Muss
+Akteur:: Nutzer, System-Admin
+Beschreibung:: Ein Akteur kann seine E-Mail Adresse ändern. Sein Verifizierungs-Status wird anschließend zurückgesetzt und er bekommt eine Verifizierung-Mail mit einem 6-stelligen alphanumerischen Code an die neue E-Mail Adresse.
+
+[[LF09-1,LF09-1]]
+== [[LF09-1,LF09-1]]/LF09.1/ Passwort ändern
+[horizontal]
+Priorität:: Muss
+Akteur:: Nutzer, System-Admin
+Beschreibung:: Ein Akteur kann sein Passwort ändern. Dafür muss das aktuelle Passwort und das neue Passwort inklusive Bestätigung angegeben werden.
+Loggt den Nutzer überall aus, außer in der aktuellen Session.
+
+[[LF09-2,LF09-2]]
+== [[LF09-2,LF09-2]]/LF09.2/ Passwort zurücksetzten
+[horizontal]
+Priorität:: Kann
+Akteur:: Nutzer, System-Admin
+Beschreibung:: Ein Akteur kann sein Passwort zurücksetzten. Dies erfolgt beim auswählen der Zurücksetzten-Option beim Einloggen. Nach der Eingabe der E-Mail des Benutzers wird eine E-Mail versendet durch die der Akteur dann sein neues Passwort vergeben kann. Davor muss der Akteur aber weiterhin die TOTP Authentifikation nutzen.
+
+
+[[LF10,LF10]]
+== [[LF10,LF10]]/LF10/ Devices hinzufügen
+[horizontal]
+Priorität:: Muss
+Akteur:: Admin, System-Admin
+Beschreibung:: Der Akteur kann IoT Devices zu einer Device Group hinzufügen.
+Devices werden über den Button 'Device hinzufügen' hinzugefügt und es müssen alle Daten außer der ID des Devices angegeben werden.
+Das hinzugefügte Device wird der link:https://www.postgresql.org[PostgreSQL 14] hinzugefügt.
+
+[[LF11,LF11]]
+== [[LF11,LF11]]/LF11/ Devices anzeigen
+[horizontal]
+Priorität:: Muss
+Akteur:: Betrachter, Admin, System-Admin
+Beschreibung:: Der Akteur kann IoT Devices einer Device Group anzeigen lassen.
+Daten über das Device werden aus der link:https://www.postgresql.org[PostgreSQL 14] geladen.
+
+[[LF12,LF12]]
+== [[LF12,LF12]]/LF12/ Devices bearbeiten
+[horizontal]
+Priorität:: Muss
+Akteur:: Admin, System-Admin
+Beschreibung:: Der Akteur kann IoT Devices bearbeiten.
+Wenn ein Device ausgewählt wurde, kann über den Button 'Bearbeiten' das Device bearbeitet werden.
+Nach der Bearbeitung werden die Änderungen über den Button 'Speichern' gespeichert oder über den Button 'Abbrechen' verworfen.
+Die geänderten Informationen zu Device werden in die link:https://www.postgresql.org[PostgreSQL 14] geschrieben.
+
+[[LF13,LF13]]
+== [[LF13,LF13]]/LF13/ Devices entfernen
+[horizontal]
+Priorität:: Muss
+Akteur:: Admin, System-Admin
+Beschreibung:: Der Akteur kann IoT Devices entfernen
+Das Löschen erfolgt über den Button 'Löschen' und muss nochmals in einem Popup-Fenster bestätigt werden.
+Das Löschen wird nach doppelter Bestätigung in die link:https://www.postgresql.org[PostgreSQL 14] übernommen.
+Die vom Device generierten Metriken werden in link:https://www.influxdata.com[InfluxDB 2] entfernt.
+
+[[LF20,LF20]]
+== [[LF20,LF20]]/LF20/ Device Group hinzufügen
+[horizontal]
+Priorität:: Muss
+Akteur:: Nutzer, System-Admin
+Beschreibung:: Der Akteur kann Device Groups hinzufügen.
+Dabei muss er einen Namen für die Gruppe eingeben und diesen dann bestätigen.
+Nach der Bestätigung wird eine Device Group mit einer eindeutigen Id und dem eingegebenem Namen erstellt und der Nutzer erhält eine postitive Rückmeldung.
+
+[[LF21,LF21]]
+== [[LF21,LF21]]/LF21/ Device Group anzeigen
+[horizontal]
+Priorität:: Muss
+Akteur:: Betrachter, Admin, System-Admin
+Beschreibung:: Der Akteur kann Device Groups, auf die er Zugriff hat, anzeigen lassen.
+Durch einen klick auf eine Device Group, wird eine neue Seite geladen, die Informationen über die ausgewählte Device Group enthält.
+
+[[LF22,LF22]]
+== [[LF22,LF22]]/LF22/ Device Group bearbeiten
+[horizontal]
+Priorität:: Muss
+Akteur:: Admin, System-Admin
+Beschreibung:: Der Akteur kann den Namen einer Device Group ändern.
+
+[[LF23,LF23]]
+== [[LF23,LF23]]/LF23/ Device Group entfernen
+[horizontal]
+Priorität:: Muss
+Akteur:: Admin, System-Admin
+Beschreibung:: Der Akteur kann Device Groups entfernen.
+Das erfolgt durch einen Button "Löschen", während der Nutzer sich seine Device Group ansieht. Nach dem Drücken des Buttons erscheint ein Bestätigungsdialog.
+
+[[LF30,LF30]]
+== [[LF30,LF30]]/LF30/ Nutzer zu Device Group hinzufügen
+[horizontal]
+Priorität:: Muss
+Akteur:: Admin, System-Admin
+Beschreibung:: Der Akteur kann Nutzer unter Angabe seines Nutzernamens oder der E-Mail Adresse zu einer Device Group hinzufügen.
+Es muss die Rolle Betrachter oder Admin ausgewählt werden. Betrachter sollte der Default-Wert sein.
+
+[[LF31,LF31]]
+== [[LF31,LF31]]/LF31/ Nutzer der Device Group anzeigen
+[horizontal]
+Priorität:: Muss
+Akteur:: Betrachter, Admin, System-Admin
+Beschreibung:: Der Akteur kann Nutzer mitsamt Rolle in einer Device Group anzeigen lassen.
+
+[[LF32,LF32]]
+== [[LF32,LF32]]/LF32/ Nutzer der Device Group bearbeiten
+[horizontal]
+Priorität:: Muss
+Akteur:: Admin, System-Admin
+Beschreibung:: Der Akteur kann einem Nutzer in der Device Group eine andere Rolle zuweisen.
+
+[[LF33,LF33]]
+== [[LF33,LF33]]/LF33/ Nutzer in Device Group entfernen
+[horizontal]
+Priorität:: Muss
+Akteur:: Admin, System-Admin
+Beschreibung:: Der Akteur kann Nutzer aus einer Device Group entfernen. Erfordert die Bestätigung in einem Dialog.
+
+[[LF34,LF34]]
+== [[LF34,LF34]]/LF34/ Einladung zu Device Group erstellen
+[horizontal]
+Priorität:: Kann
+Akteur:: Admin, System-Admin
+Beschreibung:: Ein Akteur kann Links erstellen, um andere zur seiner Device Group einzuladen.
+Durch eine klick auf ein Kettensymbol wird ein Einladungslink erstellt. Es öffnet sich dann ein kleines Popup-Fenster indem man die Ablaufzeit des Links bestimmen kann, danach wird durch einen klick auf einen Knopf dieser erstellt und kann kopiert werden. Die eingeladenen Nutzer haben die Betrachter Gruppe.
+
+[[LF35,LF35]]
+== [[LF35,LF35]]/LF35/ Einladung zu Device Group annehmen
+[horizontal]
+Priorität:: Kann
+Akteur:: Nutzer
+Beschreibung:: Nach Aufruf eines Links aus <<LF34>> wird der angemeldete Nutzer als Betrachter der Gruppe hinzugefügt.
+
+[[LF40,LF40]]
+== [[LF40,LF40]]/LF40/ Metriken senden
+[horizontal]
+Priorität:: Muss
+Akteur:: IoT Device
+Beschreibung:: Ein Akteur kann Metriken über MQTT 5 Publish an den Broker senden.
+
+[[LF41,LF41]]
+== [[LF41,LF41]]/LF41/ Metriken einsehen
+[horizontal]
+Priorität:: Muss
+Akteur:: Betrachter, Admin, System-Admin
+Beschreibung:: Ein Akteur kann sowohl aktuelle, als auch alte Metriken eines Devices einsehen. Die Metriken werden über eine REST-Schnittstelle vom Backend abgerufen, welches die Metriken wiederum aus der InfluxDB ausliest. Der Zeitraum kann durch ein Dropdown bestimmt werden. Sind keine Metriken für den gewählten Zeitraum vorhanden, soll eine Warnung angezeigt werden.
+
+[[LF50,LF50]]
+== [[LF50,LF50]]/LF50/ TOTP konfigurieren
+[horizontal]
+Priorität:: Muss
+Akteur:: Nutzer, System-Admin
+Beschreibung:: Die Akteure können über die Webseite einen TOTP Authentikator hinzufügen, falls noch keinen TOTP Authentikator für den Nutzer existiert.
+Ablauf:
+1. Nutzer klickt auf Button und bekommt einen Dialog angezeigt. Dort muss er zunächst sein aktuelles Passwort eingeben.
+2. Anfrage an das Backend mit dem Passwort des Nutzers.
+3. Backend validiert Passwort und prüft, dass zuvor noch kein TOTP Authentikator hinzugefügt wurde.
+3.1 Im Fehlerfall wird ein relevanter Error zurückgesendet.
+3.2 Im Erfolgsfall, wird ein TOTP Authentikator in der Datenbank angelegt mit random Secret und verified=false. Secret und TOTP QRCode wird zurückgesendet
+4. Nutzer bekommt Anweisung den QR Code zu scannen oder den Schlüssel manuell in seine Authentikator App einzutragen.
+5. Nutzer wird aufgefordert den aktuellen TOTP Token einzugeben.
+6. Anfrage an das Backend mit aktuellem TOTP Code.
+7. Backend prüft TOTP Code.
+8.1 Im Fehlerfall wird ein relevanter Error zurückgesendet.
+8.2 Im Erfolgsfall wird der TOTP Authentikator aktiviert (verified=true), Recovery Codes generiert und alle anderen Sessions zerstört. Anschließend wird eine erfolgreiche Antwort zurückgesendet, welche die generierten Recovery Codes enthält.
+
+[[LF51,LF51]]
+== [[LF51,LF51]]/LF51/ TOTP Status sehen
+[horizontal]
+Priorität:: Muss
+Akteur:: Nutzer, System-Admin
+Beschreibung:: Die Akteure können sehen, ob TOTP konfiguriert ist. Falls ja, wird ein Button zum Deaktivieren angezeigt (<<LF52>>). Falls nein, wird ein Konfigurieren Button angezeigt (<<LF50>>).
+
+[[LF52,LF52]]
+== [[LF52,LF52]]/LF52/ TOTP deaktivieren
+[horizontal]
+Priorität:: Muss
+Akteur:: Nutzer, System-Admin
+Beschreibung:: Die Akteure können TOTP wieder deaktivieren. Der TOTP Authentikator in der Datenbank wird gelöscht.

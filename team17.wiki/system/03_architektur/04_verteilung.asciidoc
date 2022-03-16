@@ -1,0 +1,65 @@
+[[sec:verteilung]]
+= Verteilung
+
+[[sec:buildartefakte]]
+== Build-Artefakte
+
+[plantuml]
+----
+include::../../uml/distribution/Build_Artefakte.puml[]
+----
+
+Wir liefern die Komponenten unseres Systems in Form von Docker Images aus, welche bereits alle benötigten Abhängigkeiten beinhalten.
+
+Für die Komponenten MQTT Broker und Metrics Collector existieren bereits Images, welche wir aus der Docker Registry beziehen.
+
+Images für Frontend und Backend werden aus unserem Quellcode erzeugt.
+
+Der Daemon wird als einzige Komponente nicht als Docker Image ausgeliefert. Das liegt daran, dass die IoT Devices, auf denen der Daemon laufen soll, oft nicht die benötigte Rechenleistung für Docker haben und es hier auch vor allem auf Effizienz ankommt. Es gilt also die benötigte Rechenleistung und somit auch den Stromverbrauch zu minimieren. Deshalb setzen wir an dieser Stelle auf Binaries, welche für viele Plattformen erzeugt werden. 
+
+Migrationen für die Erstellung und fortlaufende Modifizierung des Datenbank-Schemas, werden über link:https://flywaydb.org[Flyway] verwaltet und im Source-Code gespeichert.
+
+
+[[sec:datenverteilung]]
+== Daten-Verteilung
+
+[plantuml]
+----
+include::../../uml/distribution/Daten_Verteilung.puml[]
+----
+
+Der IoT Device Tracker arbeitet mit zwei Datenbanken. +
+Zum Einen setzen wir auf eine relationale PostgreSQL Datenbank zur Speicherung der wohl-definierten Entitäten, welche untereinander relationale Abhängigkeiten haben.
+
+Für die sehr dynamischen Metriken setzen wir auf eine NoSQL Datenbank. Wir erwarten hier auch die größte Datenmenge, in Form der Metriken, weshalb sich eine NoSQL Datenbank auch aufgrund der Skalierbarkeit, besser eignet.
+
+[[sec:deployment]]
+== Deployment
+
+[plantuml]
+----
+include::../../uml/distribution/Deployment.puml[]
+----
+
+Der IoT Device Tracker lässt sich sehr flexibel bereitstellen. Die Abbildung oben zeigt ein relativ simples Beispiel-Deployment, welches auf 3 Server setzt.
+
+=== MQTT Server
+Dieser Server stellt den MQTT Broker, in Form eines Docker Containers für Eclipse Mosquitto, bereit. Der konfigurierte Port muss öffentlich aus dem Internet heraus erreichbar sein.
+
+=== App Server
+Dieser Server stellt das Frontend und das Backend in Form von Docker Containern bereit. Beide Komponenten sollten nur im lokalen, gesicherten Netz über die konfigurierten Ports erreichbar sein. Es wird unverschlüsselt über HTTP kommuniziert.
+
+=== DB Server
+Der DB Server muss sich im gleichen Netz, wie der App Server befinden. Auf ihm laufen die beiden Datenbanken, sowie der Metrics Collector, in Form von Telegraf. Die Datenbanken nutzen persistenten Speicher auf dem Host-System und sollten nicht aus dem Internet heraus erreichbar sein. 
+
+=== Gateway
+Diese Komponente ist öffentlich im Internet via HTTPS erreichbar und terminiert den verschlüsselten Traffic. Der Proxy leitet Anfragen an den App Server weiter. Im Internet wird nur verschlüsselt kommuniziert, während im internen Netz unverschlüsselt kommuniziert wird.
+
+=== Alternative Deployments
+Wie bereits angesprochen, lässt sich der IoT Device Tracker sehr flexibel bereitstellen. Das oben genannte Deployment ist ein Beispiel, welches für die meisten Anwender gut funktionieren sollte. Man könnte jedoch einige Änderungen vornehmen, unter Anderem:
+
+* Alles auf einem Server laufen lassen (Insbesondere für Dev- und Testumgebungen geeignet)
+* Auch intern verschlüsselt kommunizieren, sodass das Frontend und Backend eine HTTPS-, anstatt einer HTTP-Schnittstelle anbieten
+* Den Storage auf einen (oder mehrere) externe Server auslagern und übers Netzwerk dem DB Server verfügbar machen. Das ist insbesondere bei einem Deployment in der Cloud denkbar. So kann man auch die Datensicherheit durch Replikation erhöhen.
+* Postgres und InfluxDB auf verschiedenen Servern laufen lassen, falls die Last für einen Server zu hoch wird.
+* Die Komponenten Frontend, Backend oder InfluxDB horizontal über mehrere Server skalieren und über einen Load Balancer die Last verteilen. Das ist insbesondere für maximale Verfügbarkeit und bei sehr viel Traffic sinnvoll.

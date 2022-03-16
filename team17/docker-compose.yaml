@@ -1,0 +1,68 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: iotdtdev
+      POSTGRES_PASSWORD: iotdtdev
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432/tcp"
+
+  influxdb:
+    image: influxdb:2.0-alpine
+    restart: unless-stopped
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: iotdtdev
+      DOCKER_INFLUXDB_INIT_PASSWORD: iotdtdev
+      DOCKER_INFLUXDB_INIT_ORG: thkoeln
+      DOCKER_INFLUXDB_INIT_BUCKET: iotdt
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: iotdtdev
+    volumes:
+      - influxdb:/var/lib/influxdb
+    ports:
+      - "127.0.0.1:8086:8086/tcp" # HTTP UI and API
+
+  sonarqube:
+    image: sonarqube
+    expose:
+      - 9000
+    ports:
+      - "127.0.0.1:9000:9000"
+    networks:
+      - sonarnet
+    environment:
+      - sonar.jdbc.url=jdbc:postgresql://db:5432/sonar
+      - sonar.jdbc.username=sonar
+      - sonar.jdbc.password=sonar
+    volumes:
+      - sonarqube_conf:/opt/sonarqube/conf
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+  db:
+    image: postgres
+    networks:
+      - sonarnet
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=sonar
+    volumes:
+      - postgresql:/var/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
+networks:
+  sonarnet:
+
+volumes:
+  pgdata:
+  influxdb:
+  sonarqube_conf:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_bundled-plugins:
+  postgresql:
+  postgresql_data:

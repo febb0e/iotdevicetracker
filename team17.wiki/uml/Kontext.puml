@@ -1,0 +1,24 @@
+@startuml
+
+!$iotdt = "IoT Device Tracker"
+!$browser = "Browser"
+!$iot = "IoT Device"
+
+[$iotdt] <<system>>
+[$browser] <<system>>
+[$iot] <<system>>
+
+() "WebUI" as ui <<HTTP>>
+[$iotdt] -up- ui
+[$browser] ..> ui : uses
+
+() "Mosquitto" as mqtt <<MQTT>>
+[$iotdt] - mqtt
+mqtt <.. [$iot] : publish
+
+() "WebAPI" as api <<HTTP>>
+[$iotdt] -up- api
+[$browser] ..> api : uses
+
+
+@enduml

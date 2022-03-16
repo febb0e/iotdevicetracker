@@ -1,0 +1,47 @@
+@startuml
+
+left to right direction
+
+package presentation {
+    component "Frontend" as frontend {
+    }
+    () WebUI
+}
+WebUI -up- frontend
+
+package logic {
+    package "Backend" as backend {
+        [AuthController] <<Service>>
+        [DeviceController] <<Service>>
+        [DeviceGroupController] <<Service>>
+        [DeviceGroupUserController] <<Service>>
+        [TotpController] <<Service>>
+        [UserController] <<Service>>
+    }
+
+    () WebAPI
+
+    component "MQTT Broker" as mqtt_broker
+
+    component "Metrics Collector" as metrics_collector
+
+    component "Daemon" as daemon
+}
+
+WebAPI -down- backend
+
+package persistence {
+    component "PostgreSQL" as postgres
+    component "InfluxDB" as influxdb
+}
+
+frontend .> WebAPI : consumes
+metrics_collector .> mqtt_broker : subscribe
+metrics_collector .> influxdb : persist
+daemon .left.> mqtt_broker : publish
+backend .up.> postgres : read / write
+backend .> influxdb : read
+
+
+@enduml
+

@@ -1,0 +1,52 @@
+@startuml login
+hide footbox
+
+actor user as "User"
+participant frontend as "Frontend"
+participant backend as "Backend"
+database database as "Database (Postgres)"
+
+user -> frontend : Enter credentials
+frontend -> backend : POST /login
+backend -> database : Fetch user
+alt Username exists
+    backend <-- database : User not found
+    frontend <-- backend : Code 422: Invalid credentials
+    user <-- frontend : Display "Invalid credentials"
+else Username does not exist
+    backend <-- database : User
+    backend -> backend : Verify password (bcrypt)
+end
+alt Password incorrect
+    frontend <-- backend : Code 422: Invalid credentials
+    user <-- frontend : Display "Invalid credentials"
+else Password correct
+    backend -> backend : Check 2 step verification
+end
+alt 2FA required
+    backend -> backend : Create 2FA session
+    note over backend : session is a Secure, HTTP-Only\nsession cookie, that expires\nafter 10 minutes.
+    frontend <-- backend : Code 422: 2FA required (along with session)
+    user <-- frontend : Request TOTP
+    user -> frontend : Enter TOTP
+    frontend -> backend : POST /verify-totp
+    backend -> database : Fetch TOTP Authenticator
+    backend <-- database : TOTP authenticator
+    backend -> backend : Validate TOTP
+    alt TOTP incorrect
+        frontend <-- backend : Code 422: Invalid TOTP
+        user <-- frontend: Display "Invalid TOTP"
+    else TOTP correct
+        backend -> backend : Upgrade 2fa session to login session
+        note over backend : session is a Secure, HTTP-Only\ncookie. The expiration date and whether\nthis is a session cookie depends\non the "Remember Me" parameter.
+        frontend <-- backend : Code 200: Success (along with session)
+        user <-- frontend : Login success\n(Redirect to home page)
+    end
+else 2FA not configured
+    backend -> backend : Create login session
+    note over backend : session is a Secure, HTTP-Only\ncookie. The expiration date and whether\nthis is a session cookie depends\non the "Remember Me" parameter.
+    frontend <-- backend : Code 200: Success (along with session)
+    user <-- frontend : Login success\n(Redirect to home page)
+end
+
+@enduml

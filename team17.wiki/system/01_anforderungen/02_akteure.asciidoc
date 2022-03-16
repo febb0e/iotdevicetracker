@@ -1,0 +1,42 @@
+[[sec:akteure]]
+= Akteure und Rollen
+
+Ein registrierter Nutzer hat sowohl eine globale Rolle, als auch eine Rolle pro Device Gruppe, in die er hinzugefügt wurde.
+
+[[sec:global]]
+== Globale Rollen
+
+**Nutzer**
+
+Ein Nutzer kann sich auf der Webseite anmelden und neue Device Gruppen erstellen.
+
+**System-Admin**
+
+Ein System-Admin kann Device Gruppen erstellen und hat Admin Zugriff auf jede Gruppe. Er kann neue Nutzer hinzufügen und bestehende Nutzer verwalten. Außerdem kann er die System-Logs einsehen.
+Hat ein System-Admin keine 2-Faktor-Authentifizierung (TOTP) konfiguriert, gilt er als normaler Nutzer.
+
+[[sec:group]]
+== Device Gruppen Rollen
+
+Zu jeder Device Gruppe können bestehende Nutzer hinzugefügt werden. Die hinzugefügten Nutzer haben eine der folgenden Rollen:
+
+**Betrachter**
+
+Ein Betrachter kann die Metriken aller Geräte der Gruppe einsehen, sowie andere Nutzer in der Gruppe sehen.
+
+**Admin**
+
+Der Ersteller der Gruppe ist automatisch Admin. System-Admins sind implizit Admin jeder Gruppe. Ein Gruppen Admin hat unter anderem folgende Rechte:
+
+- Metriken aller Devices in der Gruppe einsehen
+- Neue Geräte in der Gruppe registrieren
+- Bestehende Geräte in der Gruppe verwalten
+- Nutzer der Gruppe hinzufügen
+- Nutzer in der Gruppe verwalten
+
+[[sec:other]]
+== Sonstige Akteure
+
+**IoT Device**
+
+Sendet Metriken via MQTT an das Backend.

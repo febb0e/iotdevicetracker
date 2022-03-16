@@ -1,0 +1,43 @@
+@startuml
+
+!include UseCaseVariables.puml
+
+left to right direction
+
+actor :$admin: as admin #Crimson
+actor :$observer: as observer #Royalblue
+
+package Metriken as metrics #RoyalBlue {
+  usecase "$LF41" as LF41
+  usecase "$LF42" as LF42
+}
+  usecase "$LF21" as LF21
+
+package DeviceGroups-Verwaltung as devicegroups #Crimson{
+  usecase "$LF22" as LF22
+  usecase "$LF23" as LF23
+  usecase "$LF10" as LF10
+  usecase "$LF11" as LF11
+  usecase "$LF12" as LF12
+  usecase "$LF13" as LF13
+}
+
+package Zugriffsrechte-Verwaltung as permissions #Crimson {
+  usecase "$LF30" as LF30
+  usecase "$LF31" as LF31
+  usecase "$LF32" as LF32
+  usecase "$LF33" as LF33
+  usecase "$LF34" as LF34
+  usecase "$LF35" as LF35
+}    
+
+devicegroups -[hidden]- LF21
+devicegroups -[hidden]- permissions
+
+observer -- LF21 #Royalblue
+observer -- metrics #Royalblue
+admin -- permissions #Crimson
+admin -- devicegroups #Crimson
+
+admin -|> "Extends" observer #Crimson
+@enduml

@@ -1,0 +1,15 @@
+[[sec:datenschema]]
+= Datenschema
+
+[plantuml]
+----
+include::../../uml/datenschema.puml[]
+----
+
+Die zu trackenden __Device__s sind in __DeviceGroup__s organisiert.
+Einer __DeviceGroup__ können beliebig viele __Device__s zugeordnet werden, aber eine __Device__ hat immer genau eine __DeviceGroup__.
+Zusätzlich können einer __DeviceGroup__ eine Menge von __User__n zugewiesen werden. Die Beziehung __User__ <--> __DeviceGroup__ hat weitere Attribute, wie die Rechte (Rolle) des Nutzers, welche in __DeviceGroupUser__ festgehalten.
+
+Die __Metric__s der Devices sind nicht wohldefiniert, um beliebige Metriken zu unterstützen. 
+
+__User__ können einen __TOTPAuthenticator__, inklusive __RecoveryCode__s konfiguriert haben und sind beliebig vielen __DeviceGroup__s zugeordnet.

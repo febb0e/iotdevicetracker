@@ -1,0 +1,76 @@
+[[sec:uebersicht]]
+= Übersicht
+
+IoT Device Tracker ist ein System, welches die Erfassung und Überwachung von Metriken von IoT Devices erlaubt.
+
+[[sec:einsatzzweck]]
+== Einsatzzweck
+
+Über eine Webseite können IoT Devices verwaltet und Metriken eingesehen werden.
+Man kann beispielsweise die CPU-Temparatur oder die Raumfeuchtigkeit im Zeitverlauf anzeigen.
+
+IoT Devices können Gruppen zugeordnet werden, jede Gruppe hat eigene Berechtigungen und Metriken.
+Eine Gruppe von IoT Devices könnte beispielsweise den Standort und die CPU-Temparatur erfassen.
+
+Welche Funktionen auf der Webseite zur Verfügung stehen, hängt von der Gruppe des betrachteten IoT Devices und der Berechtigung des Nutzers ab. Weitere Informationen dazu gibt es link:02_akteure.asciidoc[hier].
+
+[[sec:technik]]
+== Technik
+
+*(1) MQTT*
+
+Für den Nachrichtenaustausch zwischen Daemon und Backend haben uns für MQTT 5 entschieden. Diese neuere Version des MQTT Protokolls, bietet einige Vorteile im Vergleich zu MQTT 3.
+
+*(2) Daemon*
+
+IoT Device Tracker liefert einen lightweight Daemon, welcher Metriken erfasst und per MQTT an unser Backend liefert.
+Dieser Daemon ist dafür gedacht Metriken von Geräten zu sammeln, welche das MQTT Protokoll nicht von Haus aus unterstützen (wie z.B. Sensoren).
+Der Daemon wird in link:https://golang.org[GoLang] programmiert und läuft auf mehreren Platformen.
+Als MQTT Client kommt link:https://github.com/eclipse/paho.golang[Eclipse Paho] zum Einsatz.
+
+*(3) Backend*
+
+Unser Backend ist eine Java 11 Applikation, welche eine RESTful HTTP Schnittstelle bereitstellt. 
+Als Framework kommt link:https://spring.io/projects/spring-boot[Spring Boot] zum Einsatz.
+
+*(4) MQTT Broker*
+
+Als MQTT Broker wird link:https://mosquitto.org[Eclipse Mosquitto] eingesetzt. Die Authentifizierung und Authorisierung erfolgt mit Hilfe von link:https://github.com/iegomez/mosquitto-go-auth[mosquitto-go-auth] und wird via HTTP an das Backend gekoppelt.
+
+*(5) Datenbanken*
+
+Zur persistenten Speicherung der IoT Metriken kommt link:https://www.influxdata.com[InfluxDB 2] zum Einsatz. InfluxDB eignet sich sehr gut zur Speicherung von Zeitstempel-basierten Daten und bietet eine Schnittstelle um MQTT Daten abzufragen und zu speichern: https://www.influxdata.com/integration/mqtt-monitoring/.
+
+Für Nutzerdaten und Nicht-Metrik-Daten der IoT Devices wird die relationale Datenbank link:https://www.postgresql.org[PostgreSQL 14] verwendet.
+
+*(6) Metrics Collector*
+
+Wir nutzen den link:https://www.influxdata.com/time-series-platform/telegraf/[Telegraf agent], welcher die Metriken via MQTT mitliest und diese regelmäßig in der InfluxDB Datenbank persistiert.
+
+*(7) Frontend*
+
+Wir verwenden link:https://v3.nuxtjs.org[Nuxt.js 3], welches auf link:https://vuejs.org[Vue.js 3] und link:https://www.typescriptlang.org[TypeScript] aufbaut, als Frontend Framework. Zur Unterstützung beim Stylen der Webseite, verwenden wir link:https://tailwindcss.com[Tailwind CSS 3].
+
+*(8) System-Architekturmuster*
+
+- Frontend kommuniziert mit Backend (HTTP oder HTTPS).
+- MQTT Broker kommuniziert mit Backend (HTTP oder HTTPS)
+- Daemon kommuniziert mit MQTT Broker (MQTT).
+- Metrics Collector kommuniziert mit MQTT Broker (MQTT) und InfluxDB (flux).
+- Backend kommuniziert mit Datenbanken (flux und SQL).
+
+*(9) Build-Infrastruktur*
+
+- Das Frontend wird mit link:https://yarnpkg.com[Yarn] und link:https://v3.nuxtjs.org[Nuxt.js] gebuildet.
+
+- Das Backend wird mit link:https://gradle.org[Gradle] gebuildet.
+
+- Für die Build- und Release-Automatisierung wird link:https://docs.gitlab.com/ee/ci/quick_start/[GitLab CI] eingesetzt.
+
+*(10) Ziel-Infrastruktur*
+
+Falls nötig läuft der Daemon auf den zu trackenden IoT Devices (nicht nötig bei MQTT Sensoren).
+Frontend, Backend, MQTT Broker, Metrics Collector und Datenbanken können je nach Wunsch des Betreibers als Docker Container oder direkt auf dem Host-Betriebssystem gestartet werden.
+Wir wollen nicht vorschreiben, welche Infrastruktur oder Cloud man nutzt, sondern ermöglichen ein flexibles Setup. Die einzige Voraussetzung ist, dass die in (7) genannten Kommunikationswege möglich sind.
+Im Produktionseinsatz wird dringend empfohlen das Backend und das Frontend nur über HTTPS erreichbar zu haben und entsprechende HTTP Security Header zu setzen.
+Die HTTPS Konfiguration kann z.B. über einen Proxy (nginx oder Tomcat) erfolgen.
