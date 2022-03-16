@@ -1,4 +1,4 @@
-# Projektbschreibung
+# Projektbeschreibung
 
 IoT Devices werden zunehmend auf mobilen Systemen wie PKW, LKW, Bahn, etc. implementiert. Es 
 ist eine Systemlösung zu entwickeln, in der IoT Devices (simulierbar durch Notebooks oder 
